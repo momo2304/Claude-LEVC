@@ -1,0 +1,127 @@
+{{> head}}
+{{> header}}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="roof-sign" aria-hidden="true">TAXI</span>
+      <span class="eyebrow">For London cab drivers</span>
+      <h1>The last LEVC TX has left the line. Get yours before the gap.</h1>
+      <p class="lede">New TX assembly ended in September 2026 and LEVC's next cab isn't due until the second half of 2027. We source, check and prepare used LEVC TX taxis for London drivers, and take your old cab in part-exchange.</p>
+      <div class="hero-actions">
+        <a class="btn btn-amber" href="#book">Book a call back</a>
+        <a class="btn btn-ghost" href="#checker">Check your plate age</a>
+      </div>
+      <div class="hero-proof">
+        <span>Part of {{brand.parent}}, trading since 2015</span>
+        <span>Calls at a time you choose</span>
+        <span>No obligation</span>
+      </div>
+    </div>
+
+    <aside class="plate" aria-label="LEVC TX at a glance">
+      <div class="plate-head"><span>LEVC TX</span><span>Range-extended electric</span></div>
+      <div class="plate-figs">
+        <div><b>~80 mi</b><span>electric range from a 31 kWh battery</span></div>
+        <div><b>370+ mi</b><span>total range with the petrol range extender</span></div>
+        <div><b>15 yrs</b><span>maximum London licence life for a zero emission capable cab</span></div>
+        <div><b>50 kW</b><span>rapid DC charging, 22 kW AC</span></div>
+      </div>
+      <p class="plate-foot">Published figures. See sources at the foot of the page.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why now</span>
+      <h2>Three things changed for London cabbies in 2026</h2>
+    </div>
+    <div class="grid-3">
+      <div class="point">
+        <h3>New TX supply has stopped</h3>
+        <p>Final assembly of the current TX finished in September 2026. The replacement is planned for the second half of 2027. Until then, a good used TX is the only way into a new-generation London cab.</p>
+      </div>
+      <div class="point">
+        <h3>The taxi grant has gone</h3>
+        <p>The Plug-in Taxi Grant closed in April 2026, so there is no government money off a new electric cab. A well-chosen used TX closes that gap.</p>
+      </div>
+      <div class="point">
+        <h3>The 15-year clock keeps running</h3>
+        <p>TfL will not relicense a taxi past 15 years from first registration, whatever its condition. If your TX4 or Vito is getting close, you need a plan before the plate runs out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section band" id="checker" aria-labelledby="checker-title">
+  <div class="wrap checker">
+    <div class="point">
+      <span class="eyebrow">Plate age checker</span>
+      <h2 id="checker-title">How long has your cab got left in London?</h2>
+      <p class="muted">Enter the year your cab was first registered. We work out roughly when TfL's 15-year limit ends its London licence. Your exact date is on your V5C and TfL licence.</p>
+    </div>
+    <div class="checker-box">
+      <div class="checker-row">
+        <div class="field">
+          <label for="checker-year">First registered</label>
+          <input id="checker-year" inputmode="numeric" maxlength="4" placeholder="e.g. 2013">
+        </div>
+        <button type="button" class="btn btn-amber" id="checker-go">Check</button>
+      </div>
+      <p class="checker-out" id="checker-out" aria-live="polite">Most TX4s on the road were first registered between 2011 and 2017.</p>
+      <a class="btn btn-ghost btn-sm" href="#book" id="checker-book" hidden>Talk to us about part-exchange</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From first call to back on the rank</h2>
+    </div>
+    <ol class="steps">
+      <li><h3>Book a call</h3><p>Pick a time below. Tell us what you drive now and what you want next.</p></li>
+      <li><h3>We find the cab</h3><p>We match a used TX to your spec, mileage and budget, and value your current cab.</p></li>
+      <li><h3>Check and prepare</h3><p>Inspection, service history and paperwork reviewed before you commit, so it's ready for TfL licensing.</p></li>
+      <li><h3>Hand over</h3><p>Collect in Hertfordshire or ask about delivery. Your part-exchange is handled at the same handover.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap grid-2">
+    <div class="point">
+      <span class="eyebrow">Who we are</span>
+      <h2>A car dealer that now specialises in cabs</h2>
+    </div>
+    <div class="point">
+      <p>{{brand.name}} is the taxi division of {{brand.parent}}, an independent Hertfordshire dealer trading since 2015, just up the A1(M) from London. We set up a separate cab desk because London drivers need people who know the difference between a Vista and an Icon, what TfL looks for at licensing, and how much life is left on a plate.</p>
+      <p>We are independent. We are not an LEVC franchised dealer, which means we can source from the whole used market and buy any make of cab in part-exchange.</p>
+      <p><a href="{{brand.trustpilotUrl}}" rel="noopener">Read {{brand.parent}} reviews on Trustpilot</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Questions drivers ask</span>
+      <h2>Straight answers</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Can I still buy a brand new LEVC TX?</summary><p>Final assembly of the current TX ended in September 2026, so new stock is limited to whatever remains with dealers. LEVC plans a new model in the second half of 2027. A used TX is the practical option for most drivers until then.</p></details>
+      <details><summary>Will parts and servicing still be available for the TX?</summary><p>LEVC has said existing TX owners will keep receiving parts, servicing and technical support through its aftersales operations after assembly ends.</p></details>
+      <details><summary>Is there still a grant for electric taxis?</summary><p>No. The Plug-in Taxi Grant closed in April 2026. Any price you see now is without a government grant.</p></details>
+      <details><summary>Can a used TX be licensed in London?</summary><p>Yes. TfL requires newly licensed taxis to be zero emission capable, which the TX is, and limits London taxis to 15 years from first registration. We check a cab's age and history so you know how many working years it has left.</p></details>
+      <details><summary>Will you take my TX4 or Vito?</summary><p>Yes, as a part-exchange or a straight purchase, including cabs close to their London age limit. Book a call and have your registration and mileage ready.</p></details>
+      <details><summary>What happens on the call?</summary><p>A cab specialist rings at the time you chose, and the call takes no more than a {{slotMinutesText}} slot. We go through what you need, what's available, and a rough value for your current cab. There's no obligation.</p></details>
+    </div>
+  </div>
+</section>
+
+{{> booking}}
+{{> sources}}
+{{> footer}}

@@ -1,0 +1,132 @@
+<section class="section book" id="book" aria-labelledby="book-title">
+  <div class="wrap">
+    <div class="book-intro">
+      <span class="eyebrow">Book a call</span>
+      <h2 id="book-title">Pick a time. A cab specialist rings you.</h2>
+      <p>Tell us what you drive and what you need, then choose a {{slotMinutesText}} call slot. We call you at that time; no hold music, no chasing.</p>
+      <ul>
+        <li>Calls Monday to Friday 9am to 6pm, Saturday 10am to 2pm</li>
+        <li>Straight answers on stock, prices and your current cab's value</li>
+        <li>No obligation. Takes about a minute to book.</li>
+      </ul>
+      {{#phone}}<p class="muted">Prefer to ring now? <a href="tel:{{phoneHref}}">{{phone}}</a></p>{{/phone}}
+    </div>
+
+    <form class="lead-form" id="lead-form" novalidate data-default-interest="{{defaultInterest}}" data-source-page="{{sourcePage}}">
+      <div class="progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+      <fieldset class="step" data-step="1">
+        <legend>What can we help with?</legend>
+        <div class="choices" role="radiogroup">
+          <label class="choice"><input type="radio" name="interest" id="i-used" value="used_tx"><span>Buying a used LEVC TX</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-px" value="part_exchange"><span>Part-exchanging my current cab</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-sell" value="sell_cab"><span>Selling my cab outright</span></label>
+          {{#finance}}<label class="choice"><input type="radio" name="interest" id="i-fin" value="finance"><span>Finance options</span></label>{{/finance}}
+          <label class="choice"><input type="radio" name="interest" id="i-fleet" value="fleet"><span>Fleet or several cabs</span></label>
+        </div>
+        <p class="err form-error" data-err="interest" role="alert"></p>
+        <div class="form-nav"><span></span><button type="button" class="btn btn-amber" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="2" hidden>
+        <legend>About you and your cab</legend>
+        <div class="fields">
+          <div class="field full">
+            <label for="licence">Your licence</label>
+            <select id="licence" name="licence" required>
+              <option value="">Choose one</option>
+              <option value="all_london">Licensed: All London (green badge)</option>
+              <option value="suburban">Licensed: Suburban (yellow badge)</option>
+              <option value="knowledge">Doing the Knowledge</option>
+              <option value="fleet_operator">Fleet operator</option>
+              <option value="outside_london">Licensed outside London</option>
+            </select>
+            <span class="err" data-err="licence"></span>
+          </div>
+          <div class="field">
+            <label for="current_vehicle">Cab you drive now</label>
+            <select id="current_vehicle" name="current_vehicle">
+              <option value="">Choose one</option>
+              <option value="tx4">TX4 (diesel)</option>
+              <option value="vito">Mercedes Vito taxi</option>
+              <option value="tx_electric">LEVC TX (electric)</option>
+              <option value="other">Other</option>
+              <option value="none">No cab at the moment</option>
+            </select>
+            <span class="err" data-err="current_vehicle"></span>
+          </div>
+          <div class="field">
+            <label for="plate_year">Year first registered</label>
+            <input id="plate_year" name="plate_year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 2014" autocomplete="off">
+            <span class="err" data-err="plate_year"></span>
+          </div>
+          <div class="field">
+            <label for="payment">How would you pay?</label>
+            <select id="payment" name="payment">
+              <option value="">Choose one</option>
+              <option value="cash">Cash or bank transfer</option>
+              {{#finance}}<option value="finance">Finance</option>{{/finance}}
+              <option value="px_plus_cash">Part-exchange plus balance</option>
+              <option value="unsure">Not sure yet</option>
+            </select>
+            <span class="err" data-err="payment"></span>
+          </div>
+          <div class="field">
+            <label for="timeframe">When do you need it?</label>
+            <select id="timeframe" name="timeframe" required>
+              <option value="">Choose one</option>
+              <option value="asap">As soon as possible</option>
+              <option value="1_3_months">In 1 to 3 months</option>
+              <option value="3_6_months">In 3 to 6 months</option>
+              <option value="researching">Just researching</option>
+            </select>
+            <span class="err" data-err="timeframe"></span>
+          </div>
+        </div>
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="button" class="btn btn-amber" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="3" hidden>
+        <legend>Choose your call time</legend>
+        <p class="step-note">All times are UK time. We ring you; you don't need to do anything else.</p>
+        <div class="days" id="days" role="group" aria-label="Day"></div>
+        <div class="times" id="times" role="group" aria-label="Time"></div>
+        <p class="slot-picked" id="slot-picked" aria-live="polite"></p>
+        <p class="err form-error" data-err="slot_start" role="alert"></p>
+        <input type="hidden" name="slot_start" id="slot_start">
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="button" class="btn btn-amber" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="4" hidden>
+        <legend>Where do we call you?</legend>
+        <div class="fields">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" autocomplete="name" required>
+            <span class="err" data-err="name"></span>
+          </div>
+          <div class="field">
+            <label for="phone">Mobile number</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07..." required>
+            <span class="err" data-err="phone"></span>
+          </div>
+          <div class="field full">
+            <label for="email">Email <span class="muted">(optional, for your calendar invite)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email">
+            <span class="err" data-err="email"></span>
+          </div>
+          <div class="field full">
+            <label for="message">Anything we should know? <span class="muted">(optional)</span></label>
+            <textarea id="message" name="message" rows="3" placeholder="e.g. looking for a Vista spec in black, my TX4 plate runs out next spring"></textarea>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="company_website">Leave this empty</label><input id="company_website" name="company_website" tabindex="-1" autocomplete="off"></div>
+        <label class="check"><input type="checkbox" name="consent_contact" id="consent_contact"><span>Please call me at the time I picked about my enquiry. I have read the <a href="/privacy" target="_blank">privacy notice</a>.</span></label>
+        <span class="err" data-err="consent_contact"></span>
+        <label class="check"><input type="checkbox" name="consent_marketing" id="consent_marketing"><span>Also tell me when suitable cabs come in (optional, unsubscribe any time).</span></label>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="submit" class="btn btn-amber" id="submit-btn">Book my call</button></div>
+      </fieldset>
+    </form>
+  </div>
+</section>

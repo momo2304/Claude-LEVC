@@ -1,0 +1,42 @@
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div>
+        <h3>Reverie Cab Sales</h3>
+        <p>Used LEVC TX electric taxis, cab sourcing and part-exchange for London drivers. A specialist division of {{brand.parent}}, trading since 2015.</p>
+      </div>
+      <div>
+        <h3>Pages</h3>
+        <ul>
+          <li><a href="/used-levc-tx">Used LEVC TX</a></li>
+          <li><a href="/sell-or-part-exchange-your-cab">Sell or part-exchange your cab</a></li>
+          {{#finance}}<li><a href="/levc-tx-finance">LEVC TX finance</a></li>{{/finance}}
+          <li><a href="/privacy">Privacy notice</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Talk to us</h3>
+        <ul>
+          <li><a href="#book">Book a call at a time that suits you</a></li>
+          {{#phone}}<li>Phone: <a href="tel:{{phoneHref}}">{{phone}}</a></li>{{/phone}}
+          {{#email}}<li>Email: <a href="mailto:{{email}}">{{email}}</a></li>{{/email}}
+          <li>Viewings by appointment, Hertfordshire</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>{{brand.name}} is a trading name of {{brand.legalName}}, registered in England and Wales, company number {{brand.companyNumber}}. Registered office: {{brand.address}}.</p>
+      <p>We are an independent dealer and are not affiliated with, authorised by or endorsed by London EV Company Ltd (LEVC). LEVC and TX are trade marks of their respective owners and are used only to describe the vehicles we sell.</p>
+      {{#finance}}<p>{{fcaStatement}}</p>{{/finance}}
+      <p>&copy; {{year}} {{brand.legalName}}</p>
+    </div>
+  </div>
+</footer>
+<div class="mobile-cta">
+  {{#phone}}<a class="btn btn-ghost" href="tel:{{phoneHref}}">Call</a>{{/phone}}
+  <a class="btn btn-amber" href="#book">Book a call</a>
+</div>
+<script src="/assets/app.js" defer></script>
+</body>
+</html>

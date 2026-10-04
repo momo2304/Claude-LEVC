@@ -1,0 +1,32 @@
+# One-click deploy on Render (render.com). The disk keeps the lead database between deploys.
+services:
+  - type: web
+    name: reverie-cab-sales
+    runtime: docker
+    plan: starter
+    healthCheckPath: /healthz
+    disk:
+      name: leads
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: SITE_URL
+        sync: false
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: SALES_REPS
+        value: "2"
+      - key: SALES_PHONE
+        sync: false
+      - key: FCA_STATEMENT
+        sync: false
+      - key: SALES_WEBHOOK_URL
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
+      - key: SALES_EMAILS
+        sync: false
+      - key: CLOSED_DATES
+        value: "2026-12-25,2026-12-26,2026-12-28,2027-01-01"

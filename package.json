@@ -1,0 +1,15 @@
+{
+  "name": "reverie-cab-sales",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reverie Cab Sales (by Reverie Autos) - LEVC TX landing pages that turn London cabbies into booked sales calls.",
+  "type": "commonjs",
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "build:preview": "node --disable-warning=ExperimentalWarning scripts/build-preview.js"
+  },
+  "license": "UNLICENSED"
+}

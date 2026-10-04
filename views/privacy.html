@@ -1,0 +1,35 @@
+{{> head}}
+{{> header}}
+<section class="section">
+  <div class="wrap prose">
+    <span class="eyebrow">Privacy notice</span>
+    <h1>How we use your details</h1>
+    <p>This notice explains what happens to the information you give {{brand.name}} when you book a call. {{brand.name}} is a trading name of {{brand.legalName}} (company number {{brand.companyNumber}}, {{brand.address}}), which is the data controller.</p>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li>Your name, phone number and, if you give it, your email address.</li>
+      <li>What you're looking for: licence type, current cab, year of registration, timeframe, how you'd like to pay, and any notes you add.</li>
+      <li>The call time you choose, the page you booked from and, if you arrived from an advert, the campaign details in the link.</li>
+    </ul>
+
+    <h2>Why we use it</h2>
+    <ul>
+      <li>To call you at the time you booked and deal with your enquiry. The lawful basis is taking steps at your request before entering into a contract, and our legitimate interest in responding to enquiries.</li>
+      <li>To tell you about suitable cabs as they come in, only if you ticked the box for this. You can withdraw that consent at any time.</li>
+    </ul>
+
+    <h2>Who sees it</h2>
+    <p>Our sales team, and service providers that help us run this website, send booking emails and manage our sales records, under contracts that require them to protect it. {{#finance}}If you ask about finance and agree to proceed, we pass the details needed to the lender or broker you choose. {{/finance}}We do not sell your data.</p>
+
+    <h2>How long we keep it</h2>
+    <p>Enquiries that don't lead to a sale are deleted after 24 months. If you buy or sell a vehicle with us, we keep records as long as the law requires for that transaction.</p>
+
+    <h2>Your rights</h2>
+    <p>You can ask to see, correct or delete your information, object to how we use it, or withdraw marketing consent, by contacting us{{#email}} at <a href="mailto:{{email}}">{{email}}</a>{{/email}}{{^email}} using the details on this website{{/email}}. You can also complain to the Information Commissioner's Office at <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>.</p>
+
+    <h2>Cookies</h2>
+    <p>This site does not set advertising or analytics cookies. If you arrived from an advert, the campaign details in that link are sent with your booking. Nothing is stored in your browser.</p>
+  </div>
+</section>
+{{> footer}}

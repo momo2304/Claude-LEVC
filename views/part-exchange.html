@@ -1,0 +1,79 @@
+{{> head}}
+{{> header}}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Sell or part-exchange</span>
+      <h1>Your plate has a deadline. Your cab still has value.</h1>
+      <p class="lede">TfL won't relicense a taxi past 15 years from first registration. We buy TX4s, Vitos and TXs from London drivers, as a part-exchange against a used LEVC TX or for cash.</p>
+      <div class="hero-actions">
+        <a class="btn btn-amber" href="#book">Book a valuation call</a>
+        <a class="btn btn-ghost" href="#checker">Check your plate age</a>
+      </div>
+      <div class="hero-proof">
+        <span>Any make of London cab</span>
+        <span>Cabs near their age limit welcome</span>
+        <span>Old cab handled at handover</span>
+      </div>
+    </div>
+    <aside class="plate" aria-label="Have these ready">
+      <div class="plate-head"><span>For your call</span><span>Have these ready</span></div>
+      <div class="plate-figs">
+        <div><b>Reg</b><span>your registration number</span></div>
+        <div><b>Miles</b><span>current mileage</span></div>
+        <div><b>V5C</b><span>first registration date</span></div>
+        <div><b>History</b><span>service record and any known faults</span></div>
+      </div>
+      <p class="plate-foot">Valuations are confirmed after we see the cab.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section band" id="checker" aria-labelledby="checker-title">
+  <div class="wrap checker">
+    <div class="point">
+      <span class="eyebrow">Plate age checker</span>
+      <h2 id="checker-title">When does your London licence run out?</h2>
+      <p class="muted">Enter the year your cab was first registered for a rough answer. The exact date is on your V5C and TfL licence.</p>
+    </div>
+    <div class="checker-box">
+      <div class="checker-row">
+        <div class="field">
+          <label for="checker-year">First registered</label>
+          <input id="checker-year" inputmode="numeric" maxlength="4" placeholder="e.g. 2013">
+        </div>
+        <button type="button" class="btn btn-amber" id="checker-go">Check</button>
+      </div>
+      <p class="checker-out" id="checker-out" aria-live="polite">Most TX4s on the road were first registered between 2011 and 2017.</p>
+      <a class="btn btn-ghost btn-sm" href="#book" id="checker-book" hidden>Book a valuation call</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Your options</span>
+      <h2>Three ways to move on from your cab</h2>
+    </div>
+    <div class="grid-3">
+      <div class="point">
+        <h3>Part-exchange into a TX</h3>
+        <p>Your cab's value comes off a used LEVC TX we source for you. Drive in with the old one, leave with the new one.</p>
+      </div>
+      <div class="point">
+        <h3>Sell it outright</h3>
+        <p>Leaving the trade or changing plans? We'll make you an offer for the cab on its own.</p>
+      </div>
+      <div class="point">
+        <h3>Plan ahead</h3>
+        <p>Plate still has a year or two left? Book a call now so we can look out for the right TX at the right time, before your licence runs out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{> booking}}
+{{> sources}}
+{{> footer}}

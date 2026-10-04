@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}} | {{brand.name}}</title>
+<meta name="description" content="{{description}}">
+{{#noindex}}<meta name="robots" content="noindex, nofollow">{{/noindex}}
+{{^noindex}}<link rel="canonical" href="{{canonical}}">{{/noindex}}
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{title}} | {{brand.name}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:locale" content="en_GB">
+<meta name="theme-color" content="#121615">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoDealer",
+  "name": "{{brand.name}}",
+  "parentOrganization": { "@type": "Organization", "name": "{{brand.legalName}}" },
+  "url": "{{siteUrl}}/",
+  "address": { "@type": "PostalAddress", "streetAddress": "57 Great North Road", "addressLocality": "Welwyn Garden City", "postalCode": "AL8 7TL", "addressCountry": "GB" },
+  "areaServed": "London"{{#phone}},
+  "telephone": "{{phone}}"{{/phone}}
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
