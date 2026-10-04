@@ -24,6 +24,18 @@ Nearly new Mercedes-Benz and BMW executive cars for UK chauffeurs and executive 
 - It sits alongside "Reverie Cab Sales" on the same code and booking engine, one Reverie family.
 - Independent: not a franchised Mercedes-Benz or BMW retailer, and not affiliated with any platform. Every page says so.
 
+## 2a. S-Class first
+
+The S-Class is the lead product: it is the only Wheely First car, sits on the top tier of every platform, and is the team's priority deal. The home page opens on a black S-Class, has a dedicated S-Class section (spec checklist, S 580 e vs S 350 d / S 400 d, new vs nearly new prices), the S-Class card is featured in the range, S-Class leads score higher, and the "Find my S-Class" buttons pre-fill the form.
+
+Two routes into Wheely First:
+- **TfL licence:** S 580 e L (zero emission capable).
+- **Council licence** (Hertsmere, Windsor & Maidenhead, Castle Point, all accepted by Wheely): no zero emission rule, so a nearly new diesel S 350 d L / S 400 d L is an option, often cheaper than an S 580 e.
+
+## 2b. Council licensing
+
+Many London chauffeurs hold a TfL driver licence and a council driver licence (e.g. Hertsmere, RBWM). Each car is licensed by one authority: Hertsmere and Wolverhampton refuse cars licensed elsewhere. The driver, car and booking operator must share an authority. Councils are tightening rules on out-of-area working (Hertsmere 2025 policy, DfT consultation 2026), so every page tells drivers to check current policy. Details: [RESEARCH.md §7](RESEARCH.md).
+
 ## 3. Audience and offers
 
 | Segment | Trigger | Landing page | Offer |
@@ -34,6 +46,8 @@ Nearly new Mercedes-Benz and BMW executive cars for UK chauffeurs and executive 
 | Airport / group specialists | XL fares | V-Class / EQV | London: EQV; elsewhere V-Class |
 | Small chauffeur companies / fleets | Blacklane, Addison Lee, corporate accounts | Home (fleet option) | Multi-car sourcing |
 | New licence holders | First exec car | Platform rules page | Advice call: which car for which platform |
+| Council-licensed chauffeurs (Hertsmere, RBWM) | Wheely work without TfL's zero emission rule | Home: licensing section, S-Class | Diesel S-Class / V-Class options matched to council policy |
+| Businesses that rent exec cars to drivers | Fleet growth, cars ageing off platforms | Home: "I rent cars to drivers" tab | Repeat multi-car sourcing, part-exchange of cars coming off rental |
 
 ## 4. Funnel (MVP built)
 
@@ -43,6 +57,8 @@ Nearly new Mercedes-Benz and BMW executive cars for UK chauffeurs and executive 
 4. Booking saved and scored (licensed + urgent + ageing current car + Ltd company + budget = hot); sales alerted by webhook/email with calendar invite
 5. Thank-you page with calendar invite, reschedule/cancel link
 6. Rep calls at the slot with the platform spec in front of them, logs outcome in `/admin`
+
+**Design:** photo-led (licensed Wikimedia Commons photos, credited on /photo-credits), brochure-style hero with a black S-Class, "Which of these is you?" audience switcher, S-Class feature, "Fourteen hours, one car" story timeline, photo cards, licensing section, Trustpilot score, and a testimonial slot that only appears once real quotes are added.
 
 **Pages:** home, 7 model pages (S-Class, EQS, EQE, E-Class hybrid, V-Class/EQV, i7, 7 Series), platform rules, sell/part-exchange, finance (hidden until FCA wording set), privacy, thank-you, manage booking.
 

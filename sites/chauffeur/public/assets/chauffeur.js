@@ -30,16 +30,27 @@
 
   function check(car, year, city) {
     var age = now - year;
-    var big3 = city === 'london' || city === 'mcr_bham';
+    var big3 = city === 'london' || city === 'mcr_bham' || city === 'council';
     var out = [];
 
+    var council = city === 'council';
     if (city === 'london') {
       if (ZEC[car]) out.push(['ok', 'TfL first licence', 'Zero emission capable, so it can be licensed as a London PHV for the first time.']);
       else out.push(['no', 'TfL first licence', 'Not zero emission capable. It can only be re-licensed if it already holds a London PHV licence (up to 10 years old).']);
     }
+    if (council) {
+      out.push(age <= 6
+        ? ['ok', 'Hertsmere licence', 'Up to 6 years old at first licence, Euro 6, no zero emission rule. Plate exemption possible for executive contract work.']
+        : ['no', 'Hertsmere licence', 'Hertsmere licenses cars up to 6 years old at first licence.']);
+      out.push(age <= 5
+        ? ['ok', 'Windsor & Maidenhead licence', 'Up to 5 years old at first licence; plate exemption with written business contracts.']
+        : ['maybe', 'Windsor & Maidenhead licence', 'Over 5 years at first licence; RBWM can make exceptions for prestige cars in excellent condition.']);
+    }
 
     // Uber
-    if (VAN[car]) {
+    if (council) {
+      out.push(['maybe', 'Uber', 'Uber lets you work only in the region where you are licensed (long trips such as airport runs allowed). London Uber work needs a TfL licence.']);
+    } else if (VAN[car]) {
       var xxl = city === 'london' ? 6 : 10;
       out.push(age <= xxl
         ? ['ok', 'Uber Exec XXL', 'Up to ' + xxl + ' years old here, if licensed for 7 or more passengers. Eligible until ' + until(year, xxl) + '.']
@@ -59,7 +70,7 @@
     }
 
     // Wheely (London)
-    var wheelyNote = city === 'london' ? '' : ' Wheely works mainly in London.';
+    var wheelyNote = city === 'london' ? '' : council ? ' Wheely accepts Hertsmere, Windsor & Maidenhead and Castle Point licences (RBWM needs a plate exemption).' : ' Wheely works mainly in London.';
     if (S[car]) {
       out.push(year >= 2024
         ? ['ok', 'Wheely First', 'Registered 2024 or later. Must be long wheelbase with panoramic roof, rear blinds, reclining heated rear seats and rear climate control.' + wheelyNote]
@@ -113,4 +124,44 @@
 
   [carSel, yearSel, citySel].forEach(function (el) { el.addEventListener('change', render); });
   render();
+})();
+
+(function () {
+  'use strict';
+
+  // Audience switcher tabs.
+  var root = document.querySelector('[data-segments]');
+  if (root) {
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+    var select = function (tab, focus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach(function (t, i) {
+      t.tabIndex = i === 0 ? 0 : -1;
+      t.addEventListener('click', function () { select(t); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length], true); }
+      });
+    });
+  }
+
+  // Buttons with data-preset="field=value&field=value" pre-fill the booking form.
+  var form = document.getElementById('lead-form');
+  if (!form) return;
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-preset]');
+    if (!a) return;
+    new URLSearchParams(a.getAttribute('data-preset')).forEach(function (value, name) {
+      var radio = form.querySelector('input[name="' + name + '"][value="' + value + '"]');
+      if (radio) radio.checked = true;
+      else if (form.elements[name] && form.elements[name].tagName === 'SELECT') form.elements[name].value = value;
+    });
+  });
 })();

@@ -1,21 +1,30 @@
 {{> head}}
 {{> header}}
 
-<section class="hero">
+<section class="hero-v2" aria-labelledby="hero-title">
   <div class="wrap">
     <div class="hero-copy">
-      <span class="eyebrow">Nearly new &middot; {{page.short}}</span>
-      <h1>{{page.name}} <em>for chauffeurs</em></h1>
-      <p class="lede">{{page.tagline}} We source nearly new examples to the spec your platforms ask for, and check every requirement before you commit.</p>
+      <span class="eyebrow">New and nearly new &middot; {{page.short}}</span>
+      <h1 id="hero-title">{{page.name}} <em>for chauffeurs</em></h1>
+      <p class="lede">{{page.tagline}} We source new and nearly new examples to the spec your platforms and clients ask for, and check every requirement before you commit.</p>
       <div class="hero-actions">
         <a class="btn btn-cta" href="#book">Find me a {{page.short}}</a>
         <a class="btn btn-ghost" href="#checker">Check eligibility</a>
       </div>
-      <div class="hero-proof">
-        <span>{{page.variants}}</span>
+      <div class="proof-row">
+        <span><span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>{{site.reviews.score}}</b> on <a href="{{site.reviews.url}}" rel="noopener">Trustpilot</a></span>
+        <span><b>{{page.variants}}</b></span>
       </div>
     </div>
+  </div>
+  <picture class="hero-media">
+    <source type="image/webp" srcset="/assets/img/{{page.image}}-700.webp 700w, /assets/img/{{page.image}}-1200.webp 1200w" sizes="100vw">
+    <img src="/assets/img/{{page.image}}-1200.jpg" width="1200" height="632" alt="{{page.name}}" fetchpriority="high">
+  </picture>
+</section>
 
+<section class="section">
+  <div class="wrap grid-2">
     <aside class="spec" aria-label="{{page.short}} at a glance">
       <div class="spec-head"><b>{{page.short}}</b><span>At a glance</span></div>
       <div class="spec-rows">
@@ -26,6 +35,12 @@
       </div>
       <p class="spec-foot">Prices are new list prices and dealer asking prices on UK listing sites, 4 October 2026. A guide, not an offer.</p>
     </aside>
+    <div class="point">
+      <span class="eyebrow">London licensing</span>
+      <h2>What TfL <em>and councils</em> will license</h2>
+      <p>{{page.london}}</p>
+      <p class="muted">Licensing with a council such as Hertsmere or Windsor and Maidenhead? Their rules on age, emissions and plate exemptions differ from TfL&rsquo;s. <a href="/#licensing">See how council licensing works</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -60,7 +75,7 @@
       <div class="point"><h3>{{it.h}}</h3><p>{{it.p}}</p></div>
       {{/page.why}}
     </div>
-    <div class="notice gap-top"><strong>London licensing:</strong> {{page.london}}</div>
+    
   </div>
 </section>
 

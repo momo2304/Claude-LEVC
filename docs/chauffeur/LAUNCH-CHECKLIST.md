@@ -20,6 +20,13 @@ Items left for you to decide or confirm. Anything unset is hidden on the site.
 - [ ] Set `FCA_STATEMENT` with approved wording (status, broker-not-lender, commission disclosure). This switches on the finance page, nav link and the finance options in the form.
 - [ ] Agree with your lenders which products allow hire-and-reward use and any mileage caps, so sales give correct answers.
 
+## Content you can add
+
+- [ ] **Real testimonials** from chauffeur and luxury car customers, with their permission: add `{ quote, name, role }` items to `testimonials` in `sites/chauffeur/site.js`. The section shows them automatically.
+- [ ] **Your own photos** (handovers, stock, happy drivers): drop JPG/WebP into `sites/chauffeur/public/assets/img/` with the same names to replace the stock photos, and update `credits.json`.
+- [ ] Keep the Trustpilot score current in `templateData.reviews`.
+- [ ] Re-check Hertsmere / RBWM policies on launch day (councils are changing out-of-area rules).
+
 ## Nice to have in week 1
 
 - [ ] Real stock photos per model page.

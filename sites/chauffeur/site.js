@@ -9,11 +9,12 @@ const fields = [
     label: 'Looking to',
     required: true,
     options: {
-      buy: 'Buy a nearly new exec car',
+      buy: 'Buy an exec car (new or nearly new)',
       source: 'Find a specific spec',
       part_exchange: 'Part-exchange my current car',
       sell: 'Sell my car outright',
-      fleet: 'Add cars to a fleet',
+      fleet: 'Add cars to a chauffeur fleet',
+      rental: 'Supply cars for my rental business',
       finance: 'Talk about finance',
     },
   },
@@ -33,6 +34,11 @@ const fields = [
     },
   },
   {
+    name: 'condition',
+    label: 'New or used',
+    options: { new: 'New', nearly_new: 'Nearly new', either: 'Either' },
+  },
+  {
     name: 'work',
     label: 'Main work',
     required: true,
@@ -43,6 +49,7 @@ const fields = [
       addison_lee: 'Addison Lee',
       bolt: 'Bolt Premium / Luxury',
       own_clients: 'My own or corporate clients',
+      rental: 'I rent cars to drivers',
       several: 'Several platforms',
       starting: 'Just starting out',
     },
@@ -53,9 +60,11 @@ const fields = [
     required: true,
     options: {
       tfl: 'TfL private hire (PCO) licence',
-      council: 'Council private hire licence',
+      council: 'Council private hire licence (outside London)',
+      both: 'Both TfL and a council',
       applying: 'Applying for a licence',
       operator: 'Operator / fleet owner',
+      business: 'No licence: I run a rental or car business',
     },
   },
   {
@@ -97,15 +106,17 @@ const fields = [
 
 function score(d, nowYear) {
   let s = 0;
-  if (['tfl', 'council', 'operator'].includes(d.licence)) s += 3;
+  if (['tfl', 'council', 'both', 'operator', 'business'].includes(d.licence)) s += 3;
   else if (d.licence === 'applying') s += 1;
   s += { asap: 3, '1_3_months': 2, '3_6_months': 1 }[d.timeframe] || 0;
-  // Uber Exec allows 5-6 model years and Wheely 3 years, so a 4+ year old car is close to losing work.
+  // Uber Exec allows 5-6 model years and Wheely 3, so a 4+ year old car is close to losing work.
   if (d.current_year && nowYear - d.current_year >= 4) s += 2;
   if (['ltd', 'partnership'].includes(d.business)) s += 1;
   if (d.budget) s += 1;
-  if (['buy', 'source', 'fleet'].includes(d.interest)) s += 1;
-  if (d.licence === 'operator' || d.interest === 'fleet') s += 1;
+  if (['buy', 'source', 'fleet', 'rental'].includes(d.interest)) s += 1;
+  // Multi-car buyers and S-Class buyers are the team's priority deals.
+  if (['operator', 'business'].includes(d.licence) || ['fleet', 'rental'].includes(d.interest)) s += 2;
+  if (d.model === 's_class') s += 1;
   return { score: s, label: s >= 8 ? 'hot' : s >= 5 ? 'warm' : 'nurture' };
 }
 
@@ -113,6 +124,8 @@ function score(d, nowYear) {
 // lives on /platform-requirements.
 const models = {
   s_class: {
+    image: 's-class-card',
+    featured: true,
     priceNew: 'from £103,450',
     priceSeen: '2024 S 580 e L, 11k miles: £78,890',
     slug: 'mercedes-s-class',
@@ -125,7 +138,8 @@ const models = {
     why: [
       { h: 'Top tier on every platform', p: 'Wheely First, Blacklane First, Addison Lee First, Uber Lux and Bolt Luxury all list the S-Class.' },
       { h: 'Wheely First has a strict spec', p: 'Long wheelbase, first registered 2024 or later, panoramic roof, rear blinds, reclining heated rear seats and rear climate control. We check every one before you commit.' },
-      { h: 'Plug-in hybrid for London', p: 'The S 580 e can be licensed as a new London PHV. A diesel S-Class can only be re-licensed, not licensed for the first time.' },
+      { h: 'Two routes into First class', p: 'For a TfL licence choose the S 580 e plug-in hybrid. Licensing with Hertsmere or Windsor and Maidenhead, which Wheely accepts? A diesel S 350 d L or S 400 d L can be an option.' },
+      { h: 'New or nearly new', p: 'New gives you the longest life on platforms with age limits and your exact spec. Nearly new saves the first-year drop. We compare both for you on the call.' },
     ],
     fit: [
       { p: 'Wheely First', s: 'ok', n: 'W223 long wheelbase, 2024+, panoramic roof, rear blinds' },
@@ -137,6 +151,7 @@ const models = {
     watch: 'Short-wheelbase cars, black wheels and missing rear blinds fail Wheely First.',
   },
   eqs: {
+    image: 'eqs',
     priceNew: 'from £91,765',
     priceSeen: '2023 EQS 450+, 6k to 26k miles: about £45,000',
     slug: 'mercedes-eqs',
@@ -160,6 +175,7 @@ const models = {
     watch: 'Real-world range drops in winter; plan charging around long airport days.',
   },
   eqe: {
+    image: 'eqe',
     priceNew: 'from £69,365',
     priceSeen: '2025 EQE 350+, 5k to 12k miles: £39,926 to £46,440',
     slug: 'mercedes-eqe',
@@ -183,6 +199,7 @@ const models = {
     watch: 'Not on Uber Lux lists. Choose an EQS or S-Class if Lux is the goal.',
   },
   e_class_phev: {
+    image: 'e-class',
     priceNew: 'from £56,940',
     priceSeen: '2025 E 300 e, 12k to 24k miles: £39,800 to £41,699',
     slug: 'mercedes-e-class-hybrid',
@@ -207,6 +224,7 @@ const models = {
     watch: 'Older W213 E-Classes are not accepted by Wheely.',
   },
   v_class: {
+    image: 'v-class',
     priceNew: '£77,280 to £99,665',
     priceSeen: '2025 V 300 d, 5k to 20k miles: £63,250 to £71,000',
     slug: 'mercedes-v-class',
@@ -231,6 +249,7 @@ const models = {
     watch: 'Vito-based vans are rejected by Wheely.',
   },
   bmw_i7: {
+    image: 'bmw-i7',
     priceNew: 'from £104,230',
     priceSeen: '2024 i7 eDrive50, 10k to 22k miles: £49,799 to £65,700',
     slug: 'bmw-i7',
@@ -254,6 +273,7 @@ const models = {
     watch: 'Wheely does not accept bi-colour paint on the 7 Series / i7.',
   },
   bmw_7: {
+    image: 'bmw-7',
     priceNew: 'not published here',
     priceSeen: '750e xDrive asking prices: £54,989 to £79,650',
     slug: 'bmw-7-series',
@@ -307,7 +327,14 @@ module.exports = {
   },
   fields,
   score,
-  templateData: { models: Object.entries(models).map(([key, m]) => ({ key, ...m })) },
+  templateData: {
+    models: Object.entries(models).map(([key, m]) => ({ key, ...m })),
+    // Public Trustpilot figures for Reverie Autos; update when they change.
+    reviews: { score: '4.8', count: 98, asOf: 'October 2026', url: 'https://uk.trustpilot.com/review/reverieautos.co.uk' },
+    // Real customer quotes only, with their permission: { quote, name, role }.
+    testimonials: [],
+    credits: require('./public/assets/img/credits.json'),
+  },
   pages: {
     '/': {
       view: 'home',
@@ -340,5 +367,6 @@ module.exports = {
       needsFinance: true,
     },
     '/privacy': { view: 'privacy', title: 'Privacy Notice', description: 'How Reverie Executive uses the details you give us.', nav: '' },
+    '/photo-credits': { view: 'credits', title: 'Photo Credits', description: 'Credits and licences for photographs used on this site.', nav: '' },
   },
 };

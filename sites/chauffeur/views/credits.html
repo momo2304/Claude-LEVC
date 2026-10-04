@@ -1,0 +1,20 @@
+{{> head}}
+{{> header}}
+<section class="section">
+  <div class="wrap prose">
+    <span class="eyebrow">Photo credits</span>
+    <h1>Photographs on this site</h1>
+    <p>Vehicle photographs are from Wikimedia Commons, used under the Creative Commons licences listed. We cropped and resized them for this site; the adapted versions are shared under the same licence. Photographs show example vehicles, not specific cars for sale.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Image</th><th>Photographer</th><th>Licence</th><th>Source</th></tr></thead>
+        <tbody>
+          {{*site.credits}}
+          <tr><td>{{it.title}}</td><td>{{it.author}}</td><td>{{it.license}}</td><td><a href="{{it.source}}" rel="noopener">Wikimedia Commons</a></td></tr>
+          {{/site.credits}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{{> footer}}

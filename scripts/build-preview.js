@@ -43,7 +43,10 @@ const scripts = [read(path.join(root, 'shared', 'public'), 'booking.js'), read(s
 const fonts = html.match(/<link rel="stylesheet" href="https:\/\/fonts[^>]+>/)[0];
 const body = html
   .slice(html.indexOf('<body>') + 6, html.indexOf('<script src="/assets/'))
-  .replace(/href="\/(?!\/)/g, 'href="#');
+  .replace(/href="\/(?!\/)/g, 'href="#')
+  // Images are published next to the preview file.
+  .replace(/(src|srcset)="\/assets\//g, '$1="assets/')
+  .replace(/, \/assets\//g, ', assets/');
 
 const out = `<title>${config.brand.name}</title>
 ${fonts}

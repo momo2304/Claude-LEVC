@@ -30,6 +30,18 @@ If they're busy: offer two times today or tomorrow.
 - Wheely XL: V-Class/EQV long or extra-long, 3 years or newer, child seat.
 - London first licence: zero emission capable only. EQV not diesel V-Class; S 580 e not S 350 d; E 300 e not E 220 d; 750e not 740d.
 
+**Council-licensed drivers**
+- Ask which council licenses their car (Hertsmere, Windsor & Maidenhead, Castle Point, other).
+- Hertsmere: up to 6 years old at first licence, Euro 6, no zero emission rule; won't license a car licensed elsewhere.
+- RBWM: up to 5 years at first licence; plate exemption needs written business contracts; Wheely needs the exemption.
+- Wheely accepts these councils, so a diesel S 350 d L / S 400 d L can do Wheely First. Always tell them to confirm with the council and Wheely.
+
+**Always offer the S-Class comparison**
+- New vs nearly new S-Class (longest platform life vs first-year saving), and S 580 e vs diesel depending on licence.
+
+**Rental businesses (no driver licence)**
+- How many cars, which platforms their drivers work, colours/specs, replacement cycle, how they buy (Ltd company).
+
 **Agree one next step**
 - Shortlist of matching cars by WhatsApp/email by an agreed time, or
 - Viewing / collection appointment at Welwyn Garden City, or

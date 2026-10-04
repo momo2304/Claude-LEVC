@@ -29,6 +29,24 @@ test('chauffeur scoring favours licensed, urgent drivers with ageing cars', () =
   assert.equal(site.score({ licence: 'council', timeframe: '1_3_months', interest: 'part_exchange' }, 2026).label, 'warm');
 });
 
+test('rental businesses and council-licensed S-Class buyers score as priority leads', () => {
+  assert.equal(site.score({ licence: 'business', interest: 'rental', timeframe: '1_3_months' }, 2026).label, 'hot');
+  assert.equal(site.score({ licence: 'both', interest: 'buy', model: 's_class', timeframe: '1_3_months' }, 2026).label, 'warm');
+  const { lead } = validateLead({ interest: 'rental', model: 'v_class', condition: 'new', work: 'rental', licence: 'business', timeframe: 'asap', name: 'Fleet Co', phone: '07700900111', slot_start: '2026-10-05T08:00:00.000Z', consent_contact: true }, 2026, site.fields);
+  assert.equal(lead.details.condition, 'new');
+});
+
+test('every photo on the site has a credit', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const dir = path.join(__dirname, '..', 'sites', 'chauffeur', 'public', 'assets', 'img');
+  const credited = new Set(site.templateData.credits.map((c) => c.slug));
+  credited.add('s-class-card'); // crop of s-class-hero
+  for (const f of fs.readdirSync(dir).filter((x) => /\.(jpg|webp)$/.test(x))) {
+    assert.ok(credited.has(f.replace(/-\d+\.(jpg|webp)$/, '')), `no credit for ${f}`);
+  }
+});
+
 test('chauffeur form requires model, work and licence', () => {
   const { errors } = validateLead({ interest: 'buy', timeframe: 'asap' }, 2026, site.fields);
   for (const f of ['model', 'work', 'licence']) assert.ok(errors[f], f);

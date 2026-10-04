@@ -19,11 +19,12 @@
       <fieldset class="step" data-step="1">
         <legend>What are you looking to do?</legend>
         <div class="choices" role="radiogroup" data-required>
-          <label class="choice"><input type="radio" name="interest" id="i-buy" value="buy"><span>Buy a nearly new exec car</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-buy" value="buy"><span>Buy an exec car, new or nearly new</span></label>
           <label class="choice"><input type="radio" name="interest" id="i-source" value="source"><span>Find a specific spec</span></label>
           <label class="choice"><input type="radio" name="interest" id="i-px" value="part_exchange"><span>Part-exchange my current car</span></label>
           <label class="choice"><input type="radio" name="interest" id="i-sell" value="sell"><span>Sell my car outright</span></label>
-          <label class="choice"><input type="radio" name="interest" id="i-fleet" value="fleet"><span>Add cars to a fleet</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-fleet" value="fleet"><span>Add cars to a chauffeur fleet</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-rental" value="rental"><span>Supply cars for my rental business</span></label>
           {{#finance}}<label class="choice"><input type="radio" name="interest" id="i-fin" value="finance"><span>Talk about finance</span></label>{{/finance}}
         </div>
         <p class="err form-error" data-err="interest" role="alert"></p>
@@ -48,6 +49,15 @@
             </select>
             <span class="err" data-err="model"></span>
           </div>
+          <div class="field full">
+            <label for="condition">New or nearly new?</label>
+            <select id="condition" name="condition">
+              <option value="">Choose one</option>
+              <option value="new">New</option>
+              <option value="nearly_new">Nearly new</option>
+              <option value="either">Either, show me both</option>
+            </select>
+          </div>
           <div class="field">
             <label for="work">Where does most of your work come from?</label>
             <select id="work" name="work" required>
@@ -58,6 +68,7 @@
               <option value="addison_lee">Addison Lee</option>
               <option value="bolt">Bolt Premium / Luxury</option>
               <option value="own_clients">My own or corporate clients</option>
+              <option value="rental">I rent cars to drivers</option>
               <option value="several">Several platforms</option>
               <option value="starting">Just starting out</option>
             </select>
@@ -68,9 +79,11 @@
             <select id="licence" name="licence" required>
               <option value="">Choose one</option>
               <option value="tfl">TfL private hire (PCO) licence</option>
-              <option value="council">Council private hire licence</option>
+              <option value="council">Council licence (e.g. Hertsmere, RBWM)</option>
+              <option value="both">Both TfL and a council</option>
               <option value="applying">Applying for a licence</option>
               <option value="operator">Operator / fleet owner</option>
+              <option value="business">No licence: I run a rental or car business</option>
             </select>
             <span class="err" data-err="licence"></span>
           </div>

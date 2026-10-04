@@ -89,3 +89,22 @@ Sources: [Carwow i7](https://www.carwow.co.uk/bmw/i7) · [PistonHeads i7](https:
 - **Commission disclosure** (CONC 4.5.3R) applies to regulated deals: disclose existence and nature of commission prominently.
 - **Other players:** Liberty Finance (formerly Liberty Leasing; prestige/fleet HP £10k–£2m); Zuto broker panel; rent-to-buy (Splend, Otto); Islamic options (Ayan, Mizan Finance); PCO brokers typically show ~10% deposit over 36–60 months.
 - **Implication for the site:** most nearly new exec cars are over £25k, so a sole trader buying for business can use the business exemption, and limited companies are unregulated. Consumer-regulated deals still need full FCA treatment. Finance copy stays off until approved wording is set.
+
+## 7. Council licensing outside London (checked 4 Oct 2026)
+
+| Council | First-licence age / max | Emissions | Plate exemption | One car, two authorities? |
+|---|---|---|---|---|
+| **Hertsmere** (policy 2025–2030) | 6 yrs / 8 yrs (10 if emissions standard met) | Euro 6; no ZEC/EV rule (deferred) | Discretionary, executive/corporate contract work with operator support; indicative makes incl. Mercedes, BMW 7 | **Forbidden** (§5.14) |
+| **Windsor & Maidenhead** (Dec 2025) | 5 yrs / 12 yrs; exceptions for prestige cars | None found | s75(3) with written business contracts | Not addressed |
+| **Wolverhampton** (Oct 2025) | None / 11.5 yrs (no limit for ULEV) | None; ULEV-only planned, review 2028 | F-segment luxury cars, contract work, Wolverhampton operator | **Forbidden** |
+| **Reading** (2026) | ULEV and under 5 yrs from Feb 2026 | ULEV | Executive list incl. S-Class, V-Class, 7 Series (under 4 yrs, to 8) | — |
+| **Castle Point** (Dec 2025) | 7 yrs / 12 yrs | None found | Executive Hire class with contract | Not found |
+| Welwyn Hatfield (2016 docs, may be outdated) | 4 / 8 yrs | — | None found | — |
+| St Albans (2024 draft) | under 5 yrs | Euro 6 | Executive/corporate only | — |
+
+- **Legal basis:** "triple lock" (driver, vehicle and operator from the same authority). A council-licensed car can lawfully do London journeys if the booking was accepted by an operator licensed by that council (PHV (London) Act 1998 s6(6)(b)); subcontracting under 1976 Act s55A.
+- **"Dual licensing" in practice:** drivers hold driver licences with more than one authority; each car is licensed by one (Hertsmere and Wolverhampton forbid a car holding two).
+- **Wheely accepts TfL, RBWM, Castle Point and Hertsmere licences** and gives the same jobs whatever the authority; RBWM needs a plate exemption. Uber restricts drivers to their licensing region (long trips allowed).
+- **Risk:** Hertsmere's 2025 policy targets operators whose journeys mostly start/end elsewhere; DfT consultation (Jan–Apr 2026) proposes ~70 licensing authorities to curb out-of-area working (London excluded); Draft Taxi and PHV Bill (May 2026).
+
+Sources: [Hertsmere policy 2025–2030](https://www.hertsmere.gov.uk/asset-library/taxi-policy-2025-to-2030.pdf) · [Hertsmere fees](https://www.hertsmere.gov.uk/business/licensing/private-hire-hackney-carriage-licensing/private-hire-and-hackney-carriage-fees) · [RBWM policy](https://www.rbwm.gov.uk/sites/default/files/2026-01/licensing_private_hire_driver_vehicle_policy_conditions.pdf) · [Wolverhampton policy](https://www.wolverhampton.gov.uk/sites/default/files/2026-05/Hackney-Carriage-and-Private-Hire-Vehicle-Licensing-Policies-052026.pdf) · [Reading PHV specifications](https://images.reading.gov.uk/2026/04/PHV-specifications.pdf) · [Castle Point policy](https://www.castlepoint.gov.uk/documents/d/guest/hackney-carriage-and-private-hire-licensing-policy-2022-2027-licensing-committee-10_12_2025) · [Wheely licensing options](https://intercom.help/Wheely-help/en/articles/6502421-licensing-options) · [Wheely RBWM](https://intercom.help/Wheely-help/en/articles/8607446-royal-borough-of-windsor-and-maidenhead) · [PHV (London) Act s6](https://www.legislation.gov.uk/ukpga/1998/34/section/6) · [1976 Act s55A](https://www.legislation.gov.uk/ukpga/1976/57/section/55A) · [TaxiPoint operator map](https://www.taxi-point.co.uk/post/the-private-hire-licence-map-that-raises-new-questions-why-are-hundreds-of-operators-registering-wi) · [DfT consultation](https://www.gov.uk/government/consultations/local-transport-authorities-and-the-licensing-of-taxis-and-private-hire-vehicles)
