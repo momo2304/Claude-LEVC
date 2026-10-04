@@ -1,0 +1,127 @@
+{{> head}}
+{{> header}}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">For UK chauffeurs and exec drivers</span>
+      <h1>Nearly new exec cars, <em>checked against your platform&rsquo;s rules.</em></h1>
+      <p class="lede">Uber has tightened its Exec and Lux rules for cars added from 19 October 2026 outside London, and Wheely only takes cars 3 years old or newer. We source nearly new Mercedes-Benz and BMW to the exact spec your work needs, and take your current car in part-exchange.</p>
+      <div class="hero-actions">
+        <a class="btn btn-cta" href="#book">Book a call</a>
+        <a class="btn btn-ghost" href="#checker">Check a car&rsquo;s eligibility</a>
+      </div>
+      <div class="hero-proof">
+        <span>Part of {{brand.parent}}, trading since 2015</span>
+        <span>Spec checked before you commit</span>
+        <span>Calls at a time you choose</span>
+      </div>
+    </div>
+
+    <aside class="spec" aria-label="Example platform requirement: Wheely First">
+      <div class="spec-head"><b>Wheely First</b><span>Requirement sheet</span></div>
+      <div class="spec-rows">
+        <div class="spec-row"><span>Model</span><b>S-Class W223, long wheelbase</b></div>
+        <div class="spec-row"><span>First registered</span><b>2024 or later</b></div>
+        <div class="spec-row"><span>Colour</span><b>Black, silver, grey (gloss)</b></div>
+        <div class="spec-row"><span>Roof</span><b>Panoramic</b></div>
+        <div class="spec-row"><span>Rear window blinds</span><b>Required</b></div>
+        <div class="spec-row"><span>Rear seats</span><b>Reclining, heated</b></div>
+        <div class="spec-row"><span>Rear climate control</span><b>Required</b></div>
+      </div>
+      <p class="spec-foot">Source: Wheely driver requirements, October 2026. We check every line before you buy.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why buy now, and buy right</span>
+      <h2>Three rules that decide which car earns</h2>
+    </div>
+    <div class="grid-3">
+      <div class="point">
+        <h3>Uber&rsquo;s 2026 rules</h3>
+        <p>New rules apply to cars added from 1 August 2026 in London and 19 October 2026 elsewhere. Exec takes Mercedes-Benz, BMW, Audi, Jaguar and Lexus saloons up to 5 model years old in London, Manchester and Birmingham, 6 elsewhere, in dark colours in the big three cities.</p>
+      </div>
+      <div class="point">
+        <h3>London&rsquo;s zero emission rule</h3>
+        <p>Since 2023 every car licensed as a London PHV for the first time must be zero emission capable. Plug-in hybrids like the S 580 e, E 300 e and 750e qualify, as do EQE, EQS, EQV and i7. A diesel V-Class or S 350 d does not.</p>
+      </div>
+      <div class="point">
+        <h3>Nearly new is where the value is</h3>
+        <p>Big luxury EVs lose value fast. In October 2026 a 2023 EQS 450+ was listed at about £45,000 against a new price from £91,765, and 2024 i7s from under £50,000 against £104,230 new.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="range">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The range</span>
+      <h2>Seven cars that cover <em>every</em> exec platform</h2>
+      <p class="muted">Each page shows which platforms accept the car, what London will license, and what nearly new ones were listed for this month.</p>
+    </div>
+    <div class="models">
+      {{*site.models}}
+      <a class="model" href="/{{it.slug}}">
+        <b>{{it.short}}</b>
+        <span class="tags"><span class="tag">London PHV: {{it.londonOk}}</span></span>
+        <p>{{it.tagline}}</p>
+        <span class="go">See platforms and prices &rarr;</span>
+      </a>
+      {{/site.models}}
+    </div>
+  </div>
+</section>
+
+{{> checker}}
+
+<section class="section">
+  <div class="wrap grid-2">
+    <div class="point">
+      <span class="eyebrow">Own it, don&rsquo;t rent it</span>
+      <h2>The car, and the payout, should be yours</h2>
+    </div>
+    <div class="point">
+      <p>Exec rent-to-buy schemes advertise EQEs from about £229 to £355 a week and EQS from about £520 a week. Drivers&rsquo; reviews of some rental firms describe deposits not returned, damage charges at hand-back, and write-off payouts going to the rental company because the insurance was in its name.</p>
+      <p>When you buy from us, the car is registered to you or your company. The spec is checked against your platform in writing before you commit, you deal with one company that has traded under one name since 2015, and your current car can go in part-exchange in the same deal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From first call to first job</h2>
+    </div>
+    <div class="grid-3">
+      <div class="point"><h3>Book a call</h3><p>Tell us your platforms, licence, budget and timing. We ring at the time you pick.</p></div>
+      <div class="point"><h3>We source to spec</h3><p>We search dealer, auction and private stock across the UK for cars that match the platform rules, colour and options you need, and value your current car.</p></div>
+      <div class="point"><h3>Check, hand over, drive</h3><p>History, spec and paperwork checked before you commit. Collect from Welwyn Garden City or ask about delivery, ready for your licensing inspection.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Questions drivers ask</span>
+      <h2>Straight answers</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Will the car be accepted by Uber, Wheely or Blacklane?</summary><p>We check the car against each platform&rsquo;s published rules for model, age, colour and equipment before you commit, and tell you in writing what we checked. Platforms change their rules and some, like Blacklane, publish model lists only in their partner portals, so please confirm with the platform as well.</p></details>
+      <details><summary>Can a diesel V-Class or S-Class be licensed in London?</summary><p>Not for the first time. Since 1 January 2023 TfL only licenses new PHVs that are zero emission capable. A diesel car that already holds a London PHV licence can be re-licensed until it reaches 10 years old. For a new London licence choose an EQV, EQE, EQS, i7, or a plug-in hybrid such as the S 580 e, E 300 e or 750e.</p></details>
+      <details><summary>Do you sell new cars?</summary><p>We specialise in nearly new cars, usually one to three years old, where the price drop from new is largest. If you need a new car, ask and we&rsquo;ll tell you what we can source.</p></details>
+      <details><summary>Will you take my current car?</summary><p>Yes, as a part-exchange or a straight purchase, including cars close to their platform age limit. Have the registration, mileage and service history ready for the call.</p></details>
+      <details><summary>What happens on the call?</summary><p>A specialist rings at the time you chose. We talk through your work, the cars that fit, current prices and a rough value for your car. There&rsquo;s no obligation.</p></details>
+    </div>
+  </div>
+</section>
+
+{{> booking}}
+{{> sources}}
+{{> footer}}

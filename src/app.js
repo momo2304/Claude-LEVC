@@ -4,13 +4,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { buildSlots, isOfferedSlot } = require('./slots');
-const { validateLead, scoreLead, STATUSES, clean } = require('./leads');
+const { validateLead, STATUSES, clean } = require('./leads');
 const { createRenderer } = require('./render');
 const { renderAdmin, leadsCsv } = require('./admin');
 const { zonedParts, formatLondon } = require('./time');
 
 const ROOT = path.join(__dirname, '..');
-const PUBLIC_DIR = path.join(ROOT, 'public');
+const SHARED_PUBLIC_DIR = path.join(ROOT, 'shared', 'public');
 
 const MIME = {
   '.css': 'text/css; charset=utf-8',
@@ -33,40 +33,6 @@ const SECURITY_HEADERS = {
     "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
 };
 
-// Public, indexable pages. path -> view name.
-const PAGES = {
-  '/': {
-    view: 'home',
-    title: 'Used LEVC TX Electric Taxis for London Cabbies',
-    description: 'New TX assembly has ended and the next LEVC cab is not due until late 2027. Book a call with Reverie Cab Sales to source a used LEVC TX or move on from your TX4.',
-    nav: 'home',
-    defaultInterest: 'used_tx',
-  },
-  '/used-levc-tx': {
-    view: 'used-tx',
-    title: 'Used LEVC TX for Sale, Sourced and Prepared for TfL',
-    description: 'Used LEVC TX electric taxis sourced, checked and prepared for TfL licensing. Tell us your spec and budget and book a call with a cab specialist.',
-    nav: 'used',
-    defaultInterest: 'used_tx',
-  },
-  '/sell-or-part-exchange-your-cab': {
-    view: 'part-exchange',
-    title: 'Sell or Part-Exchange Your TX4, Vito or TX',
-    description: 'Your London taxi licence ends at 15 years. Get a straight valuation for your TX4, Vito or TX and part-exchange into a used LEVC TX. Book a call.',
-    nav: 'px',
-    defaultInterest: 'part_exchange',
-  },
-  '/levc-tx-finance': {
-    view: 'finance',
-    title: 'LEVC TX Finance for London Cab Drivers',
-    description: 'Finance options for a used LEVC TX, explained on a call by a cab specialist. Finance subject to status.',
-    nav: 'finance',
-    defaultInterest: 'finance',
-    needsFinance: true,
-  },
-  '/privacy': { view: 'privacy', title: 'Privacy Notice', description: 'How Reverie Cab Sales uses the details you give us.', nav: '' },
-};
-
 // Utility pages: rendered but kept out of search results.
 const PRIVATE_PAGES = {
   '/thank-you': { view: 'thank-you', title: 'Your call is booked' },
@@ -74,7 +40,9 @@ const PRIVATE_PAGES = {
 };
 
 function createApp({ config, db, notifier, now = () => Date.now(), log = console }) {
-  const renderer = createRenderer(path.join(ROOT, 'views'), { cache: process.env.NODE_ENV === 'production' });
+  const { site } = config;
+  const PAGES = site.pages;
+  const renderer = createRenderer(site.viewsDir, { cache: process.env.NODE_ENV === 'production' });
   const rateBuckets = new Map();
 
   function send(res, status, body, headers = {}) {
@@ -158,7 +126,10 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
       sourcePage: pathname,
       description: meta.description || '',
       defaultInterest: meta.defaultInterest || '',
+      defaultModel: meta.defaultModel || '',
       slotMinutesText: `${config.booking.slotMinutes}-minute`,
+      page: meta.data || {},
+      site: site.templateData || {},
       noindex: Boolean(meta.noindex),
     };
   }
@@ -203,27 +174,31 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
       if (ok) return true;
     }
     send(res, 401, 'Authentication required', {
-      'www-authenticate': 'Basic realm="Reverie Cab Sales admin", charset="UTF-8"',
+      'www-authenticate': `Basic realm="${config.brand.name} admin", charset="UTF-8"`,
       'content-type': 'text/plain; charset=utf-8',
     });
     return false;
   }
 
   function serveStatic(res, pathname) {
-    const file = path.normalize(path.join(PUBLIC_DIR, pathname));
-    if (!file.startsWith(PUBLIC_DIR + path.sep)) return false;
-    let stat;
-    try {
-      stat = fs.statSync(file);
-    } catch {
-      return false;
+    // Site files win over shared ones with the same name.
+    for (const dir of [site.publicDir, SHARED_PUBLIC_DIR]) {
+      const file = path.normalize(path.join(dir, pathname));
+      if (!file.startsWith(dir + path.sep)) continue;
+      let stat;
+      try {
+        stat = fs.statSync(file);
+      } catch {
+        continue;
+      }
+      if (!stat.isFile()) continue;
+      send(res, 200, fs.readFileSync(file), {
+        'content-type': MIME[path.extname(file)] || 'application/octet-stream',
+        'cache-control': pathname.startsWith('/assets/') ? 'public, max-age=3600' : 'public, max-age=300',
+      });
+      return true;
     }
-    if (!stat.isFile()) return false;
-    send(res, 200, fs.readFileSync(file), {
-      'content-type': MIME[path.extname(file)] || 'application/octet-stream',
-      'cache-control': pathname.startsWith('/assets/') ? 'public, max-age=3600' : 'public, max-age=300',
-    });
-    return true;
+    return false;
   }
 
   function sitemap() {
@@ -243,7 +218,7 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
     if (clean(body.company_website)) return json(res, 201, { ok: true, token: 'thanks' });
 
     const year = zonedParts(now(), config.timeZone).year;
-    const { lead, errors } = validateLead(body, year);
+    const { lead, errors } = validateLead(body, year, site.fields);
     if (errors) return json(res, 422, { errors });
 
     const counts = bookedCounts();
@@ -251,7 +226,7 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
       return json(res, 409, { errors: { slot_start: 'Sorry, that time has just gone. Please pick another.' } });
     }
 
-    const { score, label } = scoreLead(lead, year);
+    const { score, label } = site.score(lead.details, year);
     const nowIso = new Date(now()).toISOString();
     const saved = db.insertLead({
       ...lead,
@@ -275,7 +250,7 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
     if (req.method === 'GET' && action === 'ics') {
       return send(res, 200, notifier.ics(lead, lead.status === 'cancelled' ? 'cancelled' : 'booked'), {
         'content-type': 'text/calendar; charset=utf-8',
-        'content-disposition': 'attachment; filename="reverie-cab-sales-call.ics"',
+        'content-disposition': 'attachment; filename="call.ics"',
       });
     }
 
@@ -321,6 +296,7 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
       const leads = view === 'all' ? db.allLeads() : db.upcomingLeads(startOfDay);
       const html = renderAdmin({
         leads,
+        fields: site.fields,
         view,
         focusId: url.searchParams.get('lead'),
         timeZone: config.timeZone,
@@ -331,7 +307,7 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
     }
 
     if (pathname === '/admin/export.csv' && req.method === 'GET') {
-      return send(res, 200, leadsCsv(db.allLeads()), {
+      return send(res, 200, leadsCsv(db.allLeads(), site.fields), {
         'content-type': 'text/csv; charset=utf-8',
         'content-disposition': `attachment; filename="leads-${new Date(now()).toISOString().slice(0, 10)}.csv"`,
         'cache-control': 'no-store',
@@ -416,4 +392,4 @@ function createApp({ config, db, notifier, now = () => Date.now(), log = console
   };
 }
 
-module.exports = { createApp, PAGES };
+module.exports = { createApp };

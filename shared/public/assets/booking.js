@@ -122,9 +122,14 @@
     var current = 0;
     var picker = new SlotPicker(form, function () { setErr('slot_start', ''); });
 
-    var def = form.getAttribute('data-default-interest');
-    var defInput = def && form.querySelector('input[name="interest"][value="' + def + '"]');
-    if (defInput) defInput.checked = true;
+    // data-default-<field>="value" preselects an answer (radio or select).
+    Array.prototype.forEach.call(form.attributes, function (attr) {
+      if (attr.name.indexOf('data-default-') !== 0 || !attr.value) return;
+      var name = attr.name.slice(13).replace(/-/g, '_');
+      var radio = form.querySelector('input[name="' + name + '"][value="' + attr.value + '"]');
+      if (radio) radio.checked = true;
+      else if (form.elements[name] && form.elements[name].tagName === 'SELECT') form.elements[name].value = attr.value;
+    });
 
     function setErr(name, msg) {
       var el = form.querySelector('[data-err="' + name + '"]');
@@ -137,7 +142,7 @@
       steps.forEach(function (s, j) { s.hidden = j !== i; });
       bars.forEach(function (b, j) { b.classList.toggle('done', j <= i); });
       current = i;
-      if (i === 2 && !picker.loaded) picker.load();
+      if ($('#days', steps[i]) && !picker.loaded) picker.load();
       var legend = $('legend', steps[i]);
       if (legend) { legend.setAttribute('tabindex', '-1'); legend.focus({ preventScroll: true }); }
       if (form.getBoundingClientRect().top < 0) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -151,30 +156,33 @@
       return el.value.trim();
     }
 
+    // Generic checks driven by the markup: [required] fields, [data-type="year"],
+    // the slot picker step and the contact step.
     function validateStep(i) {
       var ok = true;
-      function need(name, msg) { if (!val(name)) { setErr(name, msg); ok = false; } else setErr(name, ''); }
-      if (i === 0) need('interest', 'Please choose one.');
-      if (i === 1) {
-        need('licence', 'Please choose your licence.');
-        need('timeframe', 'Please choose a timeframe.');
-        var y = val('plate_year');
-        var max = new Date().getFullYear();
-        if (y && !(/^\d{4}$/.test(y) && +y >= 2000 && +y <= max)) { setErr('plate_year', 'Enter a year like 2014.'); ok = false; }
-        else setErr('plate_year', '');
-      }
-      if (i === 2) need('slot_start', 'Please pick a call time.');
-      if (i === 3) {
-        need('name', 'Please tell us your name.');
-        var phone = val('phone').replace(/[\s\-().]/g, '');
-        if (!/^(\+44|0044|0)[1-37]\d{8,9}$/.test(phone)) { setErr('phone', 'Please enter a UK number, e.g. 07700 900123.'); ok = false; }
-        else setErr('phone', '');
-        var email = val('email');
-        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { setErr('email', 'That email address does not look right.'); ok = false; }
-        else setErr('email', '');
-        if (!val('consent_contact')) { setErr('consent_contact', 'Please tick this so we can call you.'); ok = false; }
-        else setErr('consent_contact', '');
-      }
+      var step = steps[i];
+      function fail(name, msg) { setErr(name, msg); ok = false; }
+      var seen = {};
+      $$('[name]', step).forEach(function (el) {
+        var name = el.name;
+        if (seen[name] || el.type === 'hidden' || el.closest('.hp')) return;
+        seen[name] = true;
+        var v = val(name);
+        if (el.hasAttribute('required') || el.closest('[data-required]')) {
+          if (!v) { fail(name, el.type === 'radio' || el.tagName === 'SELECT' ? 'Please choose one.' : 'Please fill this in.'); return; }
+        }
+        if (el.getAttribute('data-type') === 'year' && v) {
+          var max = new Date().getFullYear() + 1;
+          if (!(/^\d{4}$/.test(v) && +v >= 2000 && +v <= max)) { fail(name, 'Enter a year like 2022.'); return; }
+        }
+        if (name === 'phone') {
+          if (!/^(\+44|0044|0)[1-37]\d{8,9}$/.test(v.replace(/[\s\-().]/g, ''))) { fail('phone', 'Please enter a UK number, e.g. 07700 900123.'); return; }
+        }
+        if (name === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { fail('email', 'That email address does not look right.'); return; }
+        if (name === 'consent_contact' && !v) { fail('consent_contact', 'Please tick this so we can call you.'); return; }
+        setErr(name, '');
+      });
+      if ($('#days', step) && !val('slot_start')) fail('slot_start', 'Please pick a call time.');
       return ok;
     }
 
@@ -200,31 +208,17 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!validateStep(3)) return;
+      if (!validateStep(steps.length - 1)) return;
       var btn = $('#submit-btn');
       var errBox = $('#form-error');
       errBox.textContent = '';
       btn.disabled = true;
       btn.textContent = 'Booking...';
 
-      var body = {
-        interest: val('interest'),
-        licence: val('licence'),
-        current_vehicle: val('current_vehicle'),
-        plate_year: val('plate_year'),
-        payment: val('payment'),
-        timeframe: val('timeframe'),
-        slot_start: val('slot_start'),
-        name: val('name'),
-        phone: val('phone'),
-        email: val('email'),
-        message: val('message'),
-        consent_contact: val('consent_contact'),
-        consent_marketing: val('consent_marketing'),
-        company_website: val('company_website'),
-        source_page: form.getAttribute('data-source-page'),
-        utm: utm()
-      };
+      var body = { source_page: form.getAttribute('data-source-page'), utm: utm() };
+      $$('[name]', form).forEach(function (el) {
+        if (!(el.name in body)) body[el.name] = val(el.name);
+      });
 
       if (PREVIEW) {
         btn.disabled = false;
@@ -242,15 +236,16 @@
         btn.textContent = 'Book my call';
         var errors = (res.data && res.data.errors) || {};
         Object.keys(errors).forEach(function (k) { setErr(k, errors[k]); });
-        if (errors.slot_start) {
-          picker.input.value = '';
-          picker.load();
-          show(2);
-          return;
-        }
-        var firstStep = ['interest'].some(function (k) { return errors[k]; }) ? 0
-          : ['licence', 'timeframe', 'plate_year', 'payment', 'current_vehicle'].some(function (k) { return errors[k]; }) ? 1 : 3;
-        if (firstStep !== 3) show(firstStep);
+        // Jump back to the first step that holds a field with an error.
+        var target = steps.length - 1;
+        steps.forEach(function (st, idx) {
+          Object.keys(errors).forEach(function (k) {
+            var inStep = k === 'slot_start' ? $('#days', st) : st.querySelector('[name="' + k + '"]');
+            if (inStep && idx < target) target = idx;
+          });
+        });
+        if (errors.slot_start) { picker.input.value = ''; picker.load(); }
+        if (target !== steps.length - 1) show(target);
         errBox.textContent = res.data.error || (Object.keys(errors).length ? 'Please check the highlighted details.' : 'Something went wrong. Please try again or call us.');
       }).catch(function () {
         btn.disabled = false;

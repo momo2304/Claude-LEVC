@@ -1,0 +1,173 @@
+<section class="section book" id="book" aria-labelledby="book-title">
+  <div class="wrap">
+    <div class="book-intro">
+      <span class="eyebrow">Book a call</span>
+      <h2 id="book-title">Tell us the work. <em>We&rsquo;ll find the car.</em></h2>
+      <p>Answer a few questions, then pick a {{slotMinutesText}} call slot. A specialist rings you at that time with cars that fit your platforms, your licence and your budget.</p>
+      <ul>
+        <li>We check platform rules, colour and spec before you commit</li>
+        <li>Part-exchange your current car in the same deal</li>
+        <li>Calls Monday to Friday 9am to 6pm, Saturday 10am to 2pm</li>
+        <li>No obligation. Takes about a minute to book.</li>
+      </ul>
+      {{#phone}}<p class="muted">Prefer to ring now? <a href="tel:{{phoneHref}}">{{phone}}</a></p>{{/phone}}
+    </div>
+
+    <form class="lead-form" id="lead-form" novalidate data-default-interest="{{defaultInterest}}" data-default-model="{{defaultModel}}" data-source-page="{{sourcePage}}">
+      <div class="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+      <fieldset class="step" data-step="1">
+        <legend>What are you looking to do?</legend>
+        <div class="choices" role="radiogroup" data-required>
+          <label class="choice"><input type="radio" name="interest" id="i-buy" value="buy"><span>Buy a nearly new exec car</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-source" value="source"><span>Find a specific spec</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-px" value="part_exchange"><span>Part-exchange my current car</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-sell" value="sell"><span>Sell my car outright</span></label>
+          <label class="choice"><input type="radio" name="interest" id="i-fleet" value="fleet"><span>Add cars to a fleet</span></label>
+          {{#finance}}<label class="choice"><input type="radio" name="interest" id="i-fin" value="finance"><span>Talk about finance</span></label>{{/finance}}
+        </div>
+        <p class="err form-error" data-err="interest" role="alert"></p>
+        <div class="form-nav"><span></span><button type="button" class="btn btn-cta" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="2" hidden>
+        <legend>The car and the work</legend>
+        <div class="fields">
+          <div class="field full">
+            <label for="model">Which car?</label>
+            <select id="model" name="model" required>
+              <option value="">Choose one</option>
+              <option value="s_class">Mercedes S-Class</option>
+              <option value="eqs">Mercedes EQS</option>
+              <option value="eqe">Mercedes EQE</option>
+              <option value="e_class_phev">Mercedes E-Class plug-in hybrid</option>
+              <option value="v_class">Mercedes V-Class / EQV</option>
+              <option value="bmw_i7">BMW i7</option>
+              <option value="bmw_7">BMW 7 Series</option>
+              <option value="open">Not sure yet</option>
+            </select>
+            <span class="err" data-err="model"></span>
+          </div>
+          <div class="field">
+            <label for="work">Where does most of your work come from?</label>
+            <select id="work" name="work" required>
+              <option value="">Choose one</option>
+              <option value="uber">Uber Exec / Lux</option>
+              <option value="wheely">Wheely</option>
+              <option value="blacklane">Blacklane</option>
+              <option value="addison_lee">Addison Lee</option>
+              <option value="bolt">Bolt Premium / Luxury</option>
+              <option value="own_clients">My own or corporate clients</option>
+              <option value="several">Several platforms</option>
+              <option value="starting">Just starting out</option>
+            </select>
+            <span class="err" data-err="work"></span>
+          </div>
+          <div class="field">
+            <label for="licence">Your licence</label>
+            <select id="licence" name="licence" required>
+              <option value="">Choose one</option>
+              <option value="tfl">TfL private hire (PCO) licence</option>
+              <option value="council">Council private hire licence</option>
+              <option value="applying">Applying for a licence</option>
+              <option value="operator">Operator / fleet owner</option>
+            </select>
+            <span class="err" data-err="licence"></span>
+          </div>
+        </div>
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="button" class="btn btn-cta" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="3" hidden>
+        <legend>Budget and timing</legend>
+        <div class="fields">
+          <div class="field">
+            <label for="business">You trade as</label>
+            <select id="business" name="business">
+              <option value="">Choose one</option>
+              <option value="sole_trader">Sole trader</option>
+              <option value="ltd">Limited company</option>
+              <option value="partnership">Partnership</option>
+              <option value="not_sure">Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">Budget</label>
+            <select id="budget" name="budget">
+              <option value="">Choose one</option>
+              <option value="under_40">Under £40,000</option>
+              <option value="40_60">£40,000 to £60,000</option>
+              <option value="60_80">£60,000 to £80,000</option>
+              <option value="80_100">£80,000 to £100,000</option>
+              <option value="over_100">Over £100,000</option>
+              <option value="monthly">Thinking monthly</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="current_car">Car you drive now <span class="muted">(optional)</span></label>
+            <input id="current_car" name="current_car" maxlength="80" placeholder="e.g. E 300 e AMG Line" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="current_year">Year it was registered</label>
+            <input id="current_year" name="current_year" data-type="year" inputmode="numeric" maxlength="4" placeholder="e.g. 2021" autocomplete="off">
+            <span class="err" data-err="current_year"></span>
+          </div>
+          <div class="field full">
+            <label for="timeframe">When do you need the car?</label>
+            <select id="timeframe" name="timeframe" required>
+              <option value="">Choose one</option>
+              <option value="asap">As soon as possible</option>
+              <option value="1_3_months">In 1 to 3 months</option>
+              <option value="3_6_months">In 3 to 6 months</option>
+              <option value="researching">Just researching</option>
+            </select>
+            <span class="err" data-err="timeframe"></span>
+          </div>
+        </div>
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="button" class="btn btn-cta" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="4" hidden>
+        <legend>Choose your call time</legend>
+        <p class="step-note">All times are UK time. Between jobs? Pick a slot that suits your shift.</p>
+        <div class="days" id="days" role="group" aria-label="Day"></div>
+        <div class="times" id="times" role="group" aria-label="Time"></div>
+        <p class="slot-picked" id="slot-picked" aria-live="polite"></p>
+        <p class="err form-error" data-err="slot_start" role="alert"></p>
+        <input type="hidden" name="slot_start" id="slot_start">
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="button" class="btn btn-cta" data-next>Next</button></div>
+      </fieldset>
+
+      <fieldset class="step" data-step="5" hidden>
+        <legend>Where do we call you?</legend>
+        <div class="fields">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" autocomplete="name" required>
+            <span class="err" data-err="name"></span>
+          </div>
+          <div class="field">
+            <label for="phone">Mobile number</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07..." required>
+            <span class="err" data-err="phone"></span>
+          </div>
+          <div class="field full">
+            <label for="email">Email <span class="muted">(optional, for your calendar invite)</span></label>
+            <input id="email" name="email" type="email" autocomplete="email">
+            <span class="err" data-err="email"></span>
+          </div>
+          <div class="field full">
+            <label for="message">Spec you need? <span class="muted">(optional)</span></label>
+            <textarea id="message" name="message" rows="3" placeholder="e.g. S 580 e L in black, panoramic roof and rear blinds for Wheely First"></textarea>
+          </div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="company_website">Leave this empty</label><input id="company_website" name="company_website" tabindex="-1" autocomplete="off"></div>
+        <label class="check"><input type="checkbox" name="consent_contact" id="consent_contact"><span>Please call me at the time I picked about my enquiry. I have read the <a href="/privacy" target="_blank">privacy notice</a>.</span></label>
+        <span class="err" data-err="consent_contact"></span>
+        <label class="check"><input type="checkbox" name="consent_marketing" id="consent_marketing"><span>Also tell me when matching cars come in (optional, unsubscribe any time).</span></label>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="form-nav"><button type="button" class="btn btn-ghost" data-back>Back</button><button type="submit" class="btn btn-cta" id="submit-btn">Book my call</button></div>
+      </fieldset>
+    </form>
+  </div>
+</section>

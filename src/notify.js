@@ -1,13 +1,14 @@
 'use strict';
 
 const { buildIcs } = require('./ics');
-const { label } = require('./leads');
+const { describeDetails } = require('./leads');
 const { formatLondon } = require('./time');
 
 // Sends a booking event to every configured channel. Never throws: a failed
 // notification must not lose the lead, which is already saved.
 function createNotifier(config, { fetchImpl = globalThis.fetch, log = console } = {}) {
   const { notify, brand, booking, siteUrl, timeZone } = config;
+  const fields = config.site.fields;
 
   function when(lead) {
     return formatLondon(Date.parse(lead.slot_start), timeZone, {
@@ -26,11 +27,7 @@ function createNotifier(config, { fetchImpl = globalThis.fetch, log = console } 
       `Name: ${lead.name}`,
       `Phone: ${lead.phone}`,
       lead.email ? `Email: ${lead.email}` : null,
-      `Interested in: ${label('interest', lead.interest)}`,
-      `Licence: ${label('licence', lead.licence)}`,
-      lead.current_vehicle ? `Current cab: ${label('current_vehicle', lead.current_vehicle)}${lead.plate_year ? ` (${lead.plate_year})` : ''}` : null,
-      lead.payment ? `Paying by: ${label('payment', lead.payment)}` : null,
-      `Timeframe: ${label('timeframe', lead.timeframe)}`,
+      ...describeDetails(fields, lead.details).map((d) => `${d.label}: ${d.value}`),
       lead.message ? `Notes: ${lead.message}` : null,
       `Admin: ${siteUrl}/admin?lead=${lead.id}`,
     ].filter(Boolean);
@@ -38,6 +35,7 @@ function createNotifier(config, { fetchImpl = globalThis.fetch, log = console } 
 
   function ics(lead, event) {
     return buildIcs({
+      prodId: brand.name,
       uid: lead.id,
       startIso: lead.slot_start,
       minutes: booking.slotMinutes,
@@ -54,13 +52,7 @@ function createNotifier(config, { fetchImpl = globalThis.fetch, log = console } 
     const payload = {
       event,
       lead: { ...lead, manage_token: undefined, utm: lead.utm ? JSON.parse(lead.utm) : null },
-      labels: {
-        interest: label('interest', lead.interest),
-        licence: label('licence', lead.licence),
-        current_vehicle: label('current_vehicle', lead.current_vehicle),
-        payment: label('payment', lead.payment),
-        timeframe: label('timeframe', lead.timeframe),
-      },
+      answers: describeDetails(fields, lead.details),
       call_time_uk: when(lead),
       admin_url: `${siteUrl}/admin?lead=${lead.id}`,
     };

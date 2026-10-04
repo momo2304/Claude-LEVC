@@ -6,22 +6,13 @@ const http = require('node:http');
 const { openDb } = require('../src/db');
 const { createApp } = require('../src/app');
 const { createNotifier } = require('../src/notify');
+const { buildConfig } = require('../src/config');
 
 // Sunday 4 Oct 2026, 12:00 London.
 const NOW = Date.parse('2026-10-04T11:00:00Z');
 
-function makeConfig(overrides = {}) {
-  return {
-    port: 0,
-    siteUrl: 'http://test.local',
-    timeZone: 'Europe/London',
-    brand: { name: 'Reverie Cab Sales', parent: 'Reverie Autos', legalName: 'Reverie Autos Ltd', companyNumber: '09304340', address: 'x', phone: '', email: '', trustpilotUrl: '#' },
-    finance: { fcaStatement: '', enabled: false },
-    booking: { slotMinutes: 20, capacity: 1, leadTimeMinutes: 120, daysAhead: 14, hours: { 0: null, 1: [9, 18], 2: [9, 18], 3: [9, 18], 4: [9, 18], 5: [9, 18], 6: [10, 14] }, closedDates: [] },
-    notify: { webhookUrl: 'http://hook.local/x', resendApiKey: '', fromEmail: '', salesEmails: [] },
-    admin: { user: 'sales', password: 'pw' },
-    ...overrides,
-  };
+function makeConfig(env = {}) {
+  return buildConfig({ SITE_URL: 'http://test.local', SALES_REPS: '1', SALES_WEBHOOK_URL: 'http://hook.local/x', ADMIN_PASSWORD: 'pw', ...env });
 }
 
 async function start(config = makeConfig()) {
@@ -139,7 +130,7 @@ test('pages render, finance page hidden until FCA wording is set', async () => {
   } finally {
     await s.close();
   }
-  const f = await start(makeConfig({ finance: { fcaStatement: 'Reverie Autos Ltd is authorised and regulated by the FCA (FRN 000000).', enabled: true } }));
+  const f = await start(makeConfig({ FCA_STATEMENT: 'Reverie Autos Ltd is authorised and regulated by the FCA (FRN 000000).' }));
   try {
     const html = await (await fetch(`${f.base}/levc-tx-finance`)).text();
     assert.ok(html.includes('FRN 000000'));

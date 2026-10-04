@@ -4,8 +4,8 @@ ENV NODE_ENV=production
 COPY package.json ./
 COPY server.js ./
 COPY src ./src
-COPY views ./views
-COPY public ./public
+COPY sites ./sites
+COPY shared ./shared
 RUN mkdir -p /app/data && chown -R node:node /app
 USER node
 EXPOSE 3000

@@ -6,6 +6,12 @@ const { DatabaseSync } = require('node:sqlite');
 
 const ACTIVE = "status NOT IN ('cancelled')";
 
+// Rows come back with `details` parsed from JSON.
+function hydrate(row) {
+  if (!row) return row;
+  return { ...row, details: row.details ? JSON.parse(row.details) : {} };
+}
+
 function openDb(dbPath) {
   if (dbPath !== ':memory:') fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   const db = new DatabaseSync(dbPath);
@@ -19,11 +25,8 @@ function openDb(dbPath) {
       phone TEXT NOT NULL,
       email TEXT,
       interest TEXT NOT NULL,
-      licence TEXT NOT NULL,
-      current_vehicle TEXT,
-      plate_year INTEGER,
-      payment TEXT,
       timeframe TEXT NOT NULL,
+      details TEXT NOT NULL DEFAULT '{}',
       message TEXT,
       score INTEGER NOT NULL,
       score_label TEXT NOT NULL,
@@ -43,13 +46,11 @@ function openDb(dbPath) {
       `SELECT slot_start, COUNT(*) AS n FROM leads WHERE ${ACTIVE} AND slot_start >= ? GROUP BY slot_start`
     ),
     insert: db.prepare(`INSERT INTO leads (
-      id, created_at, updated_at, name, phone, email, interest, licence, current_vehicle, plate_year,
-      payment, timeframe, message, score, score_label, slot_start, status, manage_token,
-      consent_marketing, source_page, utm
+      id, created_at, updated_at, name, phone, email, interest, timeframe, details, message,
+      score, score_label, slot_start, status, manage_token, consent_marketing, source_page, utm
     ) VALUES (
-      :id, :created_at, :updated_at, :name, :phone, :email, :interest, :licence, :current_vehicle, :plate_year,
-      :payment, :timeframe, :message, :score, :score_label, :slot_start, 'booked', :manage_token,
-      :consent_marketing, :source_page, :utm
+      :id, :created_at, :updated_at, :name, :phone, :email, :interest, :timeframe, :details, :message,
+      :score, :score_label, :slot_start, 'booked', :manage_token, :consent_marketing, :source_page, :utm
     )`),
     byId: db.prepare('SELECT * FROM leads WHERE id = ?'),
     byToken: db.prepare('SELECT * FROM leads WHERE manage_token = ?'),
@@ -67,21 +68,21 @@ function openDb(dbPath) {
       return map;
     },
     insertLead(lead) {
-      stmts.insert.run(lead);
-      return stmts.byId.get(lead.id);
+      stmts.insert.run({ ...lead, details: JSON.stringify(lead.details || {}) });
+      return hydrate(stmts.byId.get(lead.id));
     },
-    getById: (id) => stmts.byId.get(id),
-    getByToken: (token) => stmts.byToken.get(token),
+    getById: (id) => hydrate(stmts.byId.get(id)),
+    getByToken: (token) => hydrate(stmts.byToken.get(token)),
     reschedule(id, slotIso, nowIso) {
       stmts.setSlot.run(slotIso, nowIso, id);
-      return stmts.byId.get(id);
+      return hydrate(stmts.byId.get(id));
     },
     setStatus(id, status, notes, nowIso) {
       stmts.setStatus.run(status, notes, nowIso, id);
-      return stmts.byId.get(id);
+      return hydrate(stmts.byId.get(id));
     },
-    allLeads: () => stmts.all.all(),
-    upcomingLeads: (fromIso) => stmts.upcoming.all(fromIso),
+    allLeads: () => stmts.all.all().map(hydrate),
+    upcomingLeads: (fromIso) => stmts.upcoming.all(fromIso).map(hydrate),
   };
 }
 

@@ -9,9 +9,9 @@ Items we did **not** assume. Each one is either hidden on the site until set, or
 - [ ] **Public email:** set `SALES_PUBLIC_EMAIL` (shown in footer and privacy notice). Hidden until set.
 - [ ] **Admin password:** set `ADMIN_PASSWORD`. `/admin` is disabled until set.
 - [ ] **Sales alerts:** set `SALES_WEBHOOK_URL` and/or `RESEND_API_KEY` + `FROM_EMAIL` + `SALES_EMAILS`. Without them, bookings only appear in `/admin`.
-- [ ] **Team size and hours:** set `SALES_REPS`; confirm call hours in `src/config.js` (Mon–Fri 9–6, Sat 10–2 by default) and the hours text in `views/partials/booking.html`.
+- [ ] **Team size and hours:** set `SALES_REPS`; confirm call hours in `src/config.js` DEFAULT_HOURS (Mon–Fri 9–6, Sat 10–2 by default) and the hours text in `sites/cabs/views/partials/booking.html`.
 - [ ] **Bank holidays:** set `CLOSED_DATES`.
-- [ ] **Confirm Trustpilot link** in `src/config.js` points at the right Reverie Autos profile.
+- [ ] **Confirm Trustpilot link** in `sites/cabs/site.js` points at the right Reverie Autos profile.
 - [ ] **Review all copy** with the team, especially "what we check" on the used TX page, so it matches what you actually do.
 - [ ] **ICO registration:** confirm Reverie Autos Ltd's data protection fee registration is current.
 

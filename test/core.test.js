@@ -4,7 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { zonedToUtc, zonedParts } = require('../src/time');
 const { buildSlots, isOfferedSlot } = require('../src/slots');
-const { validateLead, scoreLead, normalisePhone } = require('../src/leads');
+const { validateLead, normalisePhone, describeDetails } = require('../src/leads');
+const cabs = require('../sites/cabs/site');
 const { buildIcs } = require('../src/ics');
 const { createRenderer } = require('../src/render');
 const path = require('node:path');
@@ -61,19 +62,23 @@ test('UK phone numbers normalise to +44', () => {
 });
 
 test('lead validation reports each missing field', () => {
-  const { errors } = validateLead({}, 2026);
+  const { errors } = validateLead({}, 2026, cabs.fields);
   for (const f of ['name', 'phone', 'interest', 'licence', 'timeframe', 'slot_start', 'consent_contact']) {
     assert.ok(errors[f], `expected error for ${f}`);
   }
   const ok = validateLead(
     { name: 'A Driver', phone: '07700900123', interest: 'used_tx', licence: 'all_london', timeframe: 'asap', slot_start: '2026-10-05T08:00:00.000Z', consent_contact: true, utm: { utm_source: 'google', evil: 'x' } },
-    2026
+    2026,
+    cabs.fields
   );
   assert.ok(ok.lead);
+  assert.equal(ok.lead.details.licence, 'all_london');
   assert.deepEqual(JSON.parse(ok.lead.utm), { utm_source: 'google' });
+  assert.deepEqual(describeDetails(cabs.fields, ok.lead.details).map((d) => d.value), ['Buying a used LEVC TX', 'Licensed - All London (Green badge)', 'As soon as possible']);
 });
 
-test('scoring ranks an urgent licensed driver as hot', () => {
+test('cab scoring ranks an urgent licensed driver as hot', () => {
+  const scoreLead = cabs.score;
   assert.equal(scoreLead({ licence: 'all_london', timeframe: 'asap', plate_year: 2013, payment: 'cash', interest: 'part_exchange' }, 2026).label, 'hot');
   assert.equal(scoreLead({ licence: 'suburban', timeframe: 'researching', interest: 'used_tx' }, 2026).label, 'warm');
   assert.equal(scoreLead({ licence: 'outside_london', timeframe: 'researching', interest: 'sell_cab' }, 2026).label, 'nurture');

@@ -17,7 +17,7 @@
 
       <fieldset class="step" data-step="1">
         <legend>What can we help with?</legend>
-        <div class="choices" role="radiogroup">
+        <div class="choices" role="radiogroup" data-required>
           <label class="choice"><input type="radio" name="interest" id="i-used" value="used_tx"><span>Buying a used LEVC TX</span></label>
           <label class="choice"><input type="radio" name="interest" id="i-px" value="part_exchange"><span>Part-exchanging my current cab</span></label>
           <label class="choice"><input type="radio" name="interest" id="i-sell" value="sell_cab"><span>Selling my cab outright</span></label>
@@ -57,7 +57,7 @@
           </div>
           <div class="field">
             <label for="plate_year">Year first registered</label>
-            <input id="plate_year" name="plate_year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 2014" autocomplete="off">
+            <input id="plate_year" name="plate_year" data-type="year" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 2014" autocomplete="off">
             <span class="err" data-err="plate_year"></span>
           </div>
           <div class="field">

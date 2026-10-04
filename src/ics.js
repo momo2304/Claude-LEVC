@@ -22,16 +22,16 @@ function fold(line) {
   return out.join('\r\n');
 }
 
-function buildIcs({ uid, startIso, minutes, summary, description, organizerEmail, cancelled = false, sequence = 0 }) {
+function buildIcs({ prodId = 'Reverie Autos', uid, startIso, minutes, summary, description, organizerEmail, cancelled = false, sequence = 0 }) {
   const start = Date.parse(startIso);
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Reverie Cab Sales//Booking//EN',
+    `PRODID:-//${prodId}//Booking//EN`,
     'CALSCALE:GREGORIAN',
     `METHOD:${cancelled ? 'CANCEL' : 'PUBLISH'}`,
     'BEGIN:VEVENT',
-    `UID:${uid}@reverie-cab-sales`,
+    `UID:${uid}@reverie-booking`,
     `SEQUENCE:${sequence}`,
     `DTSTAMP:${stamp(Date.now())}`,
     `DTSTART:${stamp(start)}`,

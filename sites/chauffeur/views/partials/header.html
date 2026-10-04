@@ -1,0 +1,17 @@
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="/" aria-label="{{brand.name}} home">
+      <b>Reverie Executive</b>
+      <small>Chauffeur cars &middot; by {{brand.parent}}</small>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/#range"{{#nav.range}} class="on" aria-current="page"{{/nav.range}}>Cars</a>
+      <a href="/platform-requirements"{{#nav.platforms}} class="on" aria-current="page"{{/nav.platforms}}>Platform rules</a>
+      <a href="/sell-or-part-exchange"{{#nav.px}} class="on" aria-current="page"{{/nav.px}}>Part-exchange</a>
+      {{#finance}}<a href="/chauffeur-car-finance"{{#nav.finance}} class="on" aria-current="page"{{/nav.finance}}>Finance</a>{{/finance}}
+      {{#phone}}<a href="tel:{{phoneHref}}">{{phone}}</a>{{/phone}}
+      <a class="btn btn-cta btn-sm" href="#book">Book a call</a>
+    </nav>
+  </div>
+</header>
+<main id="main">

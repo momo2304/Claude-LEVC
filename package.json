@@ -1,8 +1,8 @@
 {
-  "name": "reverie-cab-sales",
+  "name": "reverie-sites",
   "version": "0.1.0",
   "private": true,
-  "description": "Reverie Cab Sales (by Reverie Autos) - LEVC TX landing pages that turn London cabbies into booked sales calls.",
+  "description": "Reverie Autos sub-brand landing pages (Reverie Cab Sales, Reverie Executive) that turn drivers into booked sales calls.",
   "type": "commonjs",
   "engines": { "node": ">=22.5" },
   "scripts": {

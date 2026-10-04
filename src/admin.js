@@ -1,7 +1,7 @@
 'use strict';
 
 const { escapeHtml: e } = require('./render');
-const { STATUSES, label } = require('./leads');
+const { STATUSES, labelFor, describeDetails } = require('./leads');
 const { formatLondon } = require('./time');
 
 const STATUS_LABELS = {
@@ -21,17 +21,23 @@ function csvCell(value) {
   return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-function leadsCsv(leads) {
-  const cols = [
-    'id', 'created_at', 'slot_start', 'status', 'score_label', 'score', 'name', 'phone', 'email',
-    'interest', 'licence', 'current_vehicle', 'plate_year', 'payment', 'timeframe', 'message',
-    'sales_notes', 'consent_marketing', 'source_page', 'utm',
-  ];
-  const rows = leads.map((l) => cols.map((c) => csvCell(l[c])).join(','));
-  return [cols.join(','), ...rows].join('\n') + '\n';
+function leadsCsv(leads, fields) {
+  const core = ['id', 'created_at', 'slot_start', 'status', 'score_label', 'score', 'name', 'phone', 'email'];
+  const tail = ['message', 'sales_notes', 'consent_marketing', 'source_page', 'utm'];
+  const header = [...core, ...fields.map((f) => f.name), ...tail];
+  const rows = leads.map((l) =>
+    [
+      ...core.map((c) => l[c]),
+      ...fields.map((f) => labelFor(fields, f.name, l.details[f.name])),
+      ...tail.map((c) => l[c]),
+    ]
+      .map(csvCell)
+      .join(',')
+  );
+  return [header.join(','), ...rows].join('\n') + '\n';
 }
 
-function renderAdmin({ leads, view, focusId, timeZone, brandName, nowMs }) {
+function renderAdmin({ leads, fields, view, focusId, timeZone, brandName, nowMs }) {
   const fmt = (iso) =>
     formatLondon(Date.parse(iso), timeZone, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
@@ -54,8 +60,11 @@ function renderAdmin({ leads, view, focusId, timeZone, brandName, nowMs }) {
   <td><strong>${e(fmt(l.slot_start))}</strong><br><a href="/admin/leads/${e(l.id)}.ics">Add to calendar</a></td>
   <td><span class="pill ${e(l.score_label)}">${e(l.score_label)}</span><br><small>${e(l.score)} pts</small></td>
   <td><strong>${e(l.name)}</strong><br><a href="tel:${e(l.phone)}">${e(l.phone)}</a>${l.email ? `<br><a href="mailto:${e(l.email)}">${e(l.email)}</a>` : ''}</td>
-  <td>${e(label('interest', l.interest))}<br><small>${e(label('licence', l.licence))}</small></td>
-  <td>${e(label('current_vehicle', l.current_vehicle))}${l.plate_year ? ` (${e(l.plate_year)})` : ''}<br><small>${e(label('payment', l.payment))} &middot; ${e(label('timeframe', l.timeframe))}</small>${l.message ? `<p class="msg">${e(l.message)}</p>` : ''}</td>
+  <td>${e(labelFor(fields, 'interest', l.interest))}<br><small>${e(labelFor(fields, 'timeframe', l.timeframe))}</small></td>
+  <td><dl class="answers">${describeDetails(fields, l.details)
+    .filter((d) => d.name !== 'interest' && d.name !== 'timeframe')
+    .map((d) => `<dt>${e(d.label)}</dt><dd>${e(d.value)}</dd>`)
+    .join('')}</dl>${l.message ? `<p class="msg">${e(l.message)}</p>` : ''}</td>
   <td>
     <form method="post" action="/admin/leads/${e(l.id)}">
       <select name="status" aria-label="Status">${options}</select>

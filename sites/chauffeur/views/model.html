@@ -1,0 +1,70 @@
+{{> head}}
+{{> header}}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Nearly new &middot; {{page.short}}</span>
+      <h1>{{page.name}} <em>for chauffeurs</em></h1>
+      <p class="lede">{{page.tagline}} We source nearly new examples to the spec your platforms ask for, and check every requirement before you commit.</p>
+      <div class="hero-actions">
+        <a class="btn btn-cta" href="#book">Find me a {{page.short}}</a>
+        <a class="btn btn-ghost" href="#checker">Check eligibility</a>
+      </div>
+      <div class="hero-proof">
+        <span>{{page.variants}}</span>
+      </div>
+    </div>
+
+    <aside class="spec" aria-label="{{page.short}} at a glance">
+      <div class="spec-head"><b>{{page.short}}</b><span>At a glance</span></div>
+      <div class="spec-rows">
+        <div class="spec-row"><span>Versions we source</span><b>{{page.variants}}</b></div>
+        <div class="spec-row"><span>New London PHV licence</span><b>{{page.londonOk}}</b></div>
+        <div class="spec-row"><span>New list price</span><b>{{page.priceNew}}</b></div>
+        <div class="spec-row"><span>Nearly new, listed Oct 2026</span><b>{{page.priceSeen}}</b></div>
+      </div>
+      <p class="spec-foot">Prices are new list prices and dealer asking prices on UK listing sites, 4 October 2026. A guide, not an offer.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Platform fit</span>
+      <h2>Where the {{page.short}} gets work</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Platform / class</th><th>Accepted?</th><th>What they ask for</th></tr></thead>
+        <tbody>
+          {{*page.fit}}
+          <tr><td><b>{{it.p}}</b></td><td><span class="tag fit-{{it.s}}">{{it.label}}</span></td><td>{{it.n}}</td></tr>
+          {{/page.fit}}
+        </tbody>
+      </table>
+    </div>
+    <p class="notice warn gap-top">{{page.watch}}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why drivers choose it</span>
+      <h2>What to know before you buy</h2>
+    </div>
+    <div class="grid-3">
+      {{*page.why}}
+      <div class="point"><h3>{{it.h}}</h3><p>{{it.p}}</p></div>
+      {{/page.why}}
+    </div>
+    <div class="notice gap-top"><strong>London licensing:</strong> {{page.london}}</div>
+  </div>
+</section>
+
+{{> checker}}
+{{> booking}}
+{{> sources}}
+{{> footer}}

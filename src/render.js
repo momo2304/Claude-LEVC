@@ -9,6 +9,7 @@ const path = require('node:path');
 //   {{> partial}}      include views/partials/partial.html
 //   {{#key}}...{{/key}} block shown when key is truthy
 //   {{^key}}...{{/key}} block shown when key is falsy
+//   {{*key}}...{{/key}} block repeated for each item of an array, as {{it.x}}
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -37,6 +38,10 @@ function createRenderer(viewsDir, { cache = true } = {}) {
     if (depth > 5) throw new Error('partials nested too deeply');
     let out = template.replace(/\{\{>\s*([\w-]+)\s*\}\}/g, (_, name) =>
       expand(read(path.join(viewsDir, 'partials', `${name}.html`)), data, depth + 1)
+    );
+    // Lists: {{*key}}...{{/key}} repeats the block per item, exposed as `it`.
+    out = out.replace(/\{\{\*([\w.]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, key, inner) =>
+      (lookup(data, key) || []).map((it) => expand(inner, { ...data, it }, depth + 1)).join('')
     );
     // Sections, innermost first so nesting works.
     const section = /\{\{([#^])([\w.]+)\}\}((?:(?!\{\{[#^][\w.]+\}\})[\s\S])*?)\{\{\/\2\}\}/;

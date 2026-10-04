@@ -1,0 +1,42 @@
+<section class="section band" id="checker" aria-labelledby="checker-title">
+  <div class="wrap checker">
+    <div class="point">
+      <span class="eyebrow">Eligibility checker</span>
+      <h2 id="checker-title">Which platforms will take this car?</h2>
+      <p class="muted">Pick a car, the year it was first registered and where you work. We check it against the published rules for Uber, Wheely, Blacklane, Addison Lee and Bolt, and TfL&rsquo;s first-licence rule. It&rsquo;s a guide: colour, wheelbase and equipment also count.</p>
+    </div>
+    <div class="checker-box">
+      <div class="checker-row">
+        <div class="field">
+          <label for="ck-car">Car</label>
+          <select id="ck-car">
+            <option value="s_phev">S-Class S 580 e (plug-in hybrid)</option>
+            <option value="s_diesel">S-Class diesel</option>
+            <option value="eqs">EQS</option>
+            <option value="eqe">EQE</option>
+            <option value="e_phev">E-Class E 300 e (W214)</option>
+            <option value="e_diesel">E-Class E 220 d (W214)</option>
+            <option value="v_diesel">V-Class diesel (long / extra-long)</option>
+            <option value="eqv">EQV (long / extra-long)</option>
+            <option value="i7">BMW i7</option>
+            <option value="b7_phev">BMW 750e / M760e</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="ck-year">First registered</label>
+          <select id="ck-year"></select>
+        </div>
+        <div class="field">
+          <label for="ck-city">Where you work</label>
+          <select id="ck-city">
+            <option value="london">London</option>
+            <option value="mcr_bham">Manchester or Birmingham</option>
+            <option value="other">Elsewhere in the UK</option>
+          </select>
+        </div>
+      </div>
+      <div class="results" id="ck-results" aria-live="polite"></div>
+      <a class="btn btn-cta btn-sm" href="#book">Find me a car that fits</a>
+    </div>
+  </div>
+</section>

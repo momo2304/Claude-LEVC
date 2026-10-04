@@ -1,0 +1,48 @@
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div>
+        <h3>Reverie Executive</h3>
+        <p>Nearly new Mercedes-Benz and BMW executive cars for UK chauffeurs and private hire drivers, sourced to the spec your platforms ask for. A specialist division of {{brand.parent}}, trading since 2015.</p>
+      </div>
+      <div>
+        <h3>Cars</h3>
+        <ul>
+          <li><a href="/mercedes-s-class">Mercedes S-Class</a></li>
+          <li><a href="/mercedes-eqs">Mercedes EQS</a></li>
+          <li><a href="/mercedes-eqe">Mercedes EQE</a></li>
+          <li><a href="/mercedes-e-class-hybrid">Mercedes E-Class plug-in hybrid</a></li>
+          <li><a href="/mercedes-v-class">Mercedes V-Class and EQV</a></li>
+          <li><a href="/bmw-i7">BMW i7</a></li>
+          <li><a href="/bmw-7-series">BMW 7 Series</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Help</h3>
+        <ul>
+          <li><a href="/platform-requirements">Uber, Wheely and Blacklane car rules</a></li>
+          <li><a href="/sell-or-part-exchange">Sell or part-exchange</a></li>
+          {{#finance}}<li><a href="/chauffeur-car-finance">Finance</a></li>{{/finance}}
+          <li><a href="/privacy">Privacy notice</a></li>
+          {{#phone}}<li>Phone: <a href="tel:{{phoneHref}}">{{phone}}</a></li>{{/phone}}
+          {{#email}}<li>Email: <a href="mailto:{{email}}">{{email}}</a></li>{{/email}}
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <p>{{brand.name}} is a trading name of {{brand.legalName}}, registered in England and Wales, company number {{brand.companyNumber}}. Registered office: {{brand.address}}.</p>
+      <p>We are an independent dealer, not a franchised Mercedes-Benz or BMW retailer, and we are not affiliated with or endorsed by Uber, Wheely, Blacklane, Addison Lee or any other platform. Platform requirements change: always confirm eligibility with the platform before you buy. Brand names are used only to describe the vehicles we sell.</p>
+      {{#finance}}<p>{{fcaStatement}}</p>{{/finance}}
+      <p>&copy; {{year}} {{brand.legalName}}</p>
+    </div>
+  </div>
+</footer>
+<div class="mobile-cta">
+  {{#phone}}<a class="btn btn-ghost" href="tel:{{phoneHref}}">Call</a>{{/phone}}
+  <a class="btn btn-cta" href="#book">Book a call</a>
+</div>
+<script src="/assets/booking.js" defer></script>
+<script src="/assets/chauffeur.js" defer></script>
+</body>
+</html>

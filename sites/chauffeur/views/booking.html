@@ -1,0 +1,36 @@
+{{> head}}
+{{> header}}
+<section class="section">
+  <div class="wrap confirm" id="confirm" data-mode="manage">
+    <span class="eyebrow">Manage your call</span>
+    <h1 id="manage-title">Your booked call</h1>
+    <div class="ticket">
+      <span class="muted" id="ticket-status">Your call</span>
+      <b id="ticket-when">Loading your booking...</b>
+      <span id="ticket-phone" class="muted"></span>
+    </div>
+    <div class="hero-actions" id="manage-actions" hidden>
+      <a class="btn btn-ghost" id="ics-link" href="#">Add to my calendar</a>
+      <button type="button" class="btn btn-ghost" id="show-reschedule">Change time</button>
+      <button type="button" class="btn btn-ghost" id="cancel-btn">Cancel call</button>
+    </div>
+    <div id="cancel-confirm" class="notice" hidden>
+      <p>Cancel this call? You can book again any time.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-amber btn-sm" id="cancel-yes">Yes, cancel it</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="cancel-no">Keep my call</button>
+      </div>
+    </div>
+    <div id="reschedule" class="lead-form" hidden>
+      <h2>Pick a new time</h2>
+      <p class="step-note">All times are UK time.</p>
+      <div class="days" id="days" role="group" aria-label="Day"></div>
+      <div class="times" id="times" role="group" aria-label="Time"></div>
+      <p class="slot-picked" id="slot-picked" aria-live="polite"></p>
+      <input type="hidden" id="slot_start">
+      <p class="form-error" id="form-error" role="alert"></p>
+      <div class="form-nav"><span></span><button type="button" class="btn btn-amber" id="reschedule-save">Move my call</button></div>
+    </div>
+  </div>
+</section>
+{{> footer}}
